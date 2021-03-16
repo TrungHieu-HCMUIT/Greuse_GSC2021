@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:greuse/screens/add_screen.dart';
+import 'package:greuse/screens/messages_screen.dart';
 import 'package:greuse/screens/news_feed_screen.dart';
 import 'package:greuse/screens/profile_screen.dart';
 
@@ -45,7 +46,9 @@ class _HomeScreenState extends State<HomeScreen> {
           IconButton(
             icon: Icon(CupertinoIcons.paperplane),
             tooltip: 'Message',
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pushNamed(context, MessagesScreen.id);
+            },
           ),
         ],
       ),
