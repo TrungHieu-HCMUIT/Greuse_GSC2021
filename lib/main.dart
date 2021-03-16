@@ -8,6 +8,14 @@ import 'package:greuse/screens/profile_screen.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
+  final _routes = {
+    HomeScreen.id: (_) => HomeScreen(),
+    NewsFeedScreen.id: (_) => NewsFeedScreen(),
+    AddScreen.id: (_) => AddScreen(),
+    ProfileScreen.id: (_) => ProfileScreen(),
+    MessagesScreen.id: (_) => MessagesScreen(),
+  };
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -15,12 +23,32 @@ class MyApp extends StatelessWidget {
         primaryColor: Color(0xFF2A9D8F),
       ),
       initialRoute: HomeScreen.id,
-      routes: {
-        HomeScreen.id: (_) => HomeScreen(),
-        NewsFeedScreen.id: (_) => NewsFeedScreen(),
-        AddScreen.id: (_) => AddScreen(),
-        ProfileScreen.id: (_) => ProfileScreen(),
-        MessagesScreen.id: (_) => MessagesScreen(),
+      onGenerateRoute: (settings) {
+        return PageRouteBuilder(
+          pageBuilder: (context, animation, secondaryAnimation) {
+            return _routes[settings.name](context);
+          },
+          transitionDuration: Duration(milliseconds: 300),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return SlideTransition(
+              position: animation.drive(
+                Tween(
+                  begin: Offset(1, 0),
+                  end: Offset(0, 0),
+                ).chain(
+                  CurveTween(curve: Curves.ease),
+                ),
+              ),
+              child: ScaleTransition(
+                scale: animation.drive(Tween(begin: 0.6, end: 1.0)),
+                child: FadeTransition(
+                  opacity: animation,
+                  child: child,
+                ),
+              ),
+            );
+          },
+        );
       },
     );
   }
