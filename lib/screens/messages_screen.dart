@@ -32,6 +32,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
         title: Text('Messages'),
       ),
       body: ListView.separated(
+        physics: BouncingScrollPhysics(),
         separatorBuilder: (context, index) {
           return SizedBox(height: 18.0);
         },

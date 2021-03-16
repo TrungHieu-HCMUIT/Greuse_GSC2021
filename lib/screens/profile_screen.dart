@@ -18,84 +18,87 @@ class _ProfileScreenState extends State<ProfileScreen> {
         onPressed: () {},
       ),
       backgroundColor: Colors.white,
-      body: Padding(
-        padding: EdgeInsets.only(bottom: 65.0),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: Column(
-                  children: [
-                    Center(
-                      child: Column(
+      body: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.only(bottom: 65.0),
+          child: SingleChildScrollView(
+            physics: BouncingScrollPhysics(),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: Column(
+                    children: [
+                      Center(
+                        child: Column(
+                          children: [
+                            CircleAvatar(
+                              backgroundImage:
+                                  AssetImage('assets/images/avatar.png'),
+                              backgroundColor: Theme.of(context).primaryColor,
+                              radius: 55.0,
+                            ),
+                            SizedBox(height: 10.0),
+                            Text(
+                              'trunghieu',
+                              style: TextStyle(
+                                fontSize: 20.0,
+                                fontWeight: FontWeight.bold,
+                                color: Theme.of(context).primaryColor,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: 18.0),
+                      Row(
                         children: [
-                          CircleAvatar(
-                            backgroundImage:
-                                AssetImage('assets/images/avatar.png'),
-                            backgroundColor: Theme.of(context).primaryColor,
-                            radius: 55.0,
+                          Expanded(
+                            child: MyCard(
+                              onTap: () {},
+                              icon: CupertinoIcons.bookmark_fill,
+                              iconColor: Color(0xFFE9C46A),
+                              label: 'Saved posts',
+                            ),
                           ),
-                          SizedBox(height: 10.0),
-                          Text(
-                            'trunghieu',
-                            style: TextStyle(
-                              fontSize: 20.0,
-                              fontWeight: FontWeight.bold,
-                              color: Theme.of(context).primaryColor,
+                          SizedBox(width: 14.0),
+                          Expanded(
+                            child: MyCard(
+                              onTap: () {},
+                              icon: CupertinoIcons.news_solid,
+                              iconColor: Color(0xFFE76F51),
+                              label: 'My posts',
                             ),
                           ),
                         ],
                       ),
-                    ),
-                    SizedBox(height: 18.0),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: MyCard(
-                            onTap: () {},
-                            icon: CupertinoIcons.bookmark_fill,
-                            iconColor: Color(0xFFE9C46A),
-                            label: 'Saved posts',
-                          ),
-                        ),
-                        SizedBox(width: 14.0),
-                        Expanded(
-                          child: MyCard(
-                            onTap: () {},
-                            icon: CupertinoIcons.news_solid,
-                            iconColor: Color(0xFFE76F51),
-                            label: 'My posts',
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              ListItem(
-                onTap: () {},
-                leading: Image.asset('assets/icons/point.png'),
-                title: 'Greuse points',
-                trailing: Text(
-                  '59',
-                  style: TextStyle(
-                    fontSize: 16.0,
+                    ],
                   ),
                 ),
-              ),
-              ListItem(
-                onTap: () {},
-                leading: Image.asset('assets/icons/store.png'),
-                title: 'Exchanging location',
-              ),
-              ListItem(
-                onTap: () {},
-                leading: Image.asset('assets/icons/exchange.png'),
-                title: 'Exchanging board',
-              ),
-            ],
+                ListItem(
+                  onTap: () {},
+                  leading: Image.asset('assets/icons/point.png'),
+                  title: 'Greuse points',
+                  trailing: Text(
+                    '59',
+                    style: TextStyle(
+                      fontSize: 16.0,
+                    ),
+                  ),
+                ),
+                ListItem(
+                  onTap: () {},
+                  leading: Image.asset('assets/icons/store.png'),
+                  title: 'Exchanging location',
+                ),
+                ListItem(
+                  onTap: () {},
+                  leading: Image.asset('assets/icons/exchange.png'),
+                  title: 'Exchanging board',
+                ),
+              ],
+            ),
           ),
         ),
       ),

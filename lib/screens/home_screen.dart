@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:greuse/screens/add_screen.dart';
-import 'package:greuse/screens/messages_screen.dart';
 import 'package:greuse/screens/news_feed_screen.dart';
 import 'package:greuse/screens/profile_screen.dart';
 
@@ -24,34 +23,6 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       body: _screens.elementAt(_currentIndex),
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        shadowColor: Colors.black.withAlpha(39),
-        backgroundColor: Colors.white,
-        centerTitle: true,
-        title: Text(
-          'Greuse',
-          style: TextStyle(
-            color: Color(0xFF264653),
-          ),
-        ),
-        iconTheme: IconThemeData(
-          color: Color(0xFF264653),
-        ),
-        leading: IconButton(
-          icon: Icon(CupertinoIcons.search),
-          tooltip: 'Search',
-          onPressed: () {},
-        ),
-        actions: [
-          IconButton(
-            icon: Icon(CupertinoIcons.paperplane),
-            tooltip: 'Message',
-            onPressed: () {
-              Navigator.pushNamed(context, MessagesScreen.id);
-            },
-          ),
-        ],
-      ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         onTap: (idx) {

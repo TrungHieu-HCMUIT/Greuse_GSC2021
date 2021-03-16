@@ -76,57 +76,60 @@ class _AddScreenState extends State<AddScreen> {
           _showSucceedDialog(context);
         },
       ),
-      body: Padding(
-        padding: EdgeInsets.only(bottom: 65.0),
-        child: SingleChildScrollView(
-          padding: EdgeInsets.all(32.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              MyButton(
-                onPressed: () {},
-                icon: CupertinoIcons.photo,
-                label: 'Choose image',
-              ),
-              SizedBox(height: 10.0),
-              MyButton(
-                onPressed: () {},
-                icon: CupertinoIcons.location,
-                label: 'Choose location',
-              ),
-              SizedBox(height: 25.0),
-              MyTextField(
-                controller: _productNameController,
-                focusNode: _productNameFocusNode,
-                hintText: "Product's name",
-                icon: CupertinoIcons.gift,
-              ),
-              SizedBox(height: 10.0),
-              MyTextField(
-                controller: _descriptionController,
-                focusNode: _descriptionFocusNode,
-                hintText: "Description",
-                icon: Icons.edit_outlined,
-              ),
-              SizedBox(height: 15.0),
-              Text(
-                'Material',
-                style: TextStyle(
-                  color: Theme.of(context).primaryColor,
-                  fontSize: 16.0,
-                  fontWeight: FontWeight.w500,
+      body: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.only(bottom: 65.0),
+          child: SingleChildScrollView(
+            physics: BouncingScrollPhysics(),
+            padding: EdgeInsets.all(32.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                MyButton(
+                  onPressed: () {},
+                  icon: CupertinoIcons.photo,
+                  label: 'Choose image',
                 ),
-              ),
-              Wrap(
-                children: _materials
-                    .map((m) => MyCheckBox(
-                          value: false,
-                          label: m,
-                          onChanged: (value) {},
-                        ))
-                    .toList(),
-              ),
-            ],
+                SizedBox(height: 10.0),
+                MyButton(
+                  onPressed: () {},
+                  icon: CupertinoIcons.location,
+                  label: 'Choose location',
+                ),
+                SizedBox(height: 25.0),
+                MyTextField(
+                  controller: _productNameController,
+                  focusNode: _productNameFocusNode,
+                  hintText: "Product's name",
+                  icon: CupertinoIcons.gift,
+                ),
+                SizedBox(height: 10.0),
+                MyTextField(
+                  controller: _descriptionController,
+                  focusNode: _descriptionFocusNode,
+                  hintText: "Description",
+                  icon: Icons.edit_outlined,
+                ),
+                SizedBox(height: 15.0),
+                Text(
+                  'Material',
+                  style: TextStyle(
+                    color: Theme.of(context).primaryColor,
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                Wrap(
+                  children: _materials
+                      .map((m) => MyCheckBox(
+                            value: false,
+                            label: m,
+                            onChanged: (value) {},
+                          ))
+                      .toList(),
+                ),
+              ],
+            ),
           ),
         ),
       ),
