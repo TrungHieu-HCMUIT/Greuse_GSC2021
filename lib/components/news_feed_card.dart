@@ -69,13 +69,13 @@ class NewsFeedCard extends StatelessWidget {
                               color: Theme.of(context).primaryColor,
                               borderRadius: BorderRadius.circular(35.0)),
                           padding: EdgeInsets.symmetric(
-                            vertical: 12.0,
-                            horizontal: 24.0,
+                            vertical: 6.0,
+                            horizontal: 15.0,
                           ),
                           child: Text(
                             'Plastic',
                             style: TextStyle(
-                              fontSize: 18.0,
+                              fontSize: 14.0,
                               color: Colors.white,
                               fontWeight: FontWeight.w500,
                             ),
