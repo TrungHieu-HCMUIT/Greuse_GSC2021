@@ -55,11 +55,30 @@ class NewsFeedCard extends StatelessWidget {
                           radius: 24.0,
                         ),
                         SizedBox(width: 8.0),
-                        Text(
-                          'trunghieu',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16.0,
+                        Expanded(
+                          child: Text(
+                            'trunghieu',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16.0,
+                            ),
+                          ),
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                              color: Theme.of(context).primaryColor,
+                              borderRadius: BorderRadius.circular(35.0)),
+                          padding: EdgeInsets.symmetric(
+                            vertical: 12.0,
+                            horizontal: 24.0,
+                          ),
+                          child: Text(
+                            'Plastic',
+                            style: TextStyle(
+                              fontSize: 18.0,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
                         ),
                       ],
