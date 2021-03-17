@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:greuse/components/news_feed_card.dart';
 import 'package:greuse/screens/messages_screen.dart';
+import 'package:greuse/screens/search_screen.dart';
 
 class NewsFeedScreen extends StatefulWidget {
   static const id = 'news_feed_screen';
@@ -30,7 +31,48 @@ class _NewsFeedScreenState extends State<NewsFeedScreen> {
         leading: IconButton(
           icon: Icon(CupertinoIcons.search),
           tooltip: 'Search',
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(
+              context,
+              PageRouteBuilder(
+                pageBuilder: (context, animation, secondaryAnimation) {
+                  return SearchScreen();
+                },
+                transitionDuration: Duration(milliseconds: 300),
+                transitionsBuilder:
+                    (context, animation, secondaryAnimation, child) {
+                  return SlideTransition(
+                    position: animation.drive(
+                      Tween(
+                        begin: Offset(-0.9, -0.9),
+                        end: Offset(0.0, 0.0),
+                      ).chain(
+                        CurveTween(
+                          curve: Curves.easeOut,
+                        ),
+                      ),
+                    ),
+                    child: ScaleTransition(
+                      scale: animation.drive(
+                        Tween(
+                          begin: 0.0,
+                          end: 1.0,
+                        ).chain(
+                          CurveTween(
+                            curve: Curves.easeOut,
+                          ),
+                        ),
+                      ),
+                      child: FadeTransition(
+                        opacity: animation,
+                        child: child,
+                      ),
+                    ),
+                  );
+                },
+              ),
+            );
+          },
         ),
         actions: [
           IconButton(
