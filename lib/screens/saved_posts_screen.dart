@@ -14,6 +14,7 @@ class _SavedPostsScreenState extends State<SavedPostsScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        shadowColor: Colors.black.withAlpha(39),
         backgroundColor: Colors.white,
         iconTheme: IconThemeData(
           color: Colors.black,
@@ -30,7 +31,7 @@ class _SavedPostsScreenState extends State<SavedPostsScreen> {
             fontWeight: FontWeight.w500,
           ),
         ),
-        title: Text('Messages'),
+        title: Text('Saved posts'),
       ),
       body: ListView.separated(
           physics: BouncingScrollPhysics(),

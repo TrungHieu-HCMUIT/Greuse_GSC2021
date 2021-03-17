@@ -35,7 +35,7 @@ class _NewsFeedScreenState extends State<NewsFeedScreen> {
         actions: [
           IconButton(
             icon: Icon(CupertinoIcons.paperplane),
-            tooltip: 'Message',
+            tooltip: 'Messages',
             onPressed: () {
               Navigator.pushNamed(context, MessagesScreen.id);
             },

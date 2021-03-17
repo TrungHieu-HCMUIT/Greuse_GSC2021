@@ -13,6 +13,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        shadowColor: Colors.black.withAlpha(39),
         backgroundColor: Colors.white,
         iconTheme: IconThemeData(
           color: Colors.black,
