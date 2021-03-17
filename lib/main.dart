@@ -4,6 +4,7 @@ import 'package:greuse/screens/home_screen.dart';
 import 'package:greuse/screens/messages_screen.dart';
 import 'package:greuse/screens/news_feed_screen.dart';
 import 'package:greuse/screens/profile_screen.dart';
+import 'package:greuse/screens/saved_posts_screen.dart';
 
 void main() => runApp(MyApp());
 
@@ -14,6 +15,7 @@ class MyApp extends StatelessWidget {
     AddScreen.id: (_) => AddScreen(),
     ProfileScreen.id: (_) => ProfileScreen(),
     MessagesScreen.id: (_) => MessagesScreen(),
+    SavedPostsScreen.id: (_) => SavedPostsScreen(),
   };
 
   @override

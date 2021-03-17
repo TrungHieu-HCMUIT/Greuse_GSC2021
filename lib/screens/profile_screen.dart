@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:greuse/components/floating_bottom_button.dart';
+import 'package:greuse/screens/saved_posts_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   static const id = 'profile_screen';
@@ -56,7 +57,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         children: [
                           Expanded(
                             child: MyCard(
-                              onTap: () {},
+                              onTap: () {
+                                Navigator.pushNamed(
+                                    context, SavedPostsScreen.id);
+                              },
                               icon: CupertinoIcons.bookmark_fill,
                               iconColor: Color(0xFFE9C46A),
                               label: 'Saved posts',
