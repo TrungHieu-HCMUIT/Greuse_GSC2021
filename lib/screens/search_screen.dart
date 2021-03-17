@@ -31,7 +31,7 @@ class _SearchScreenState extends State<SearchScreen> {
         backgroundColor: Colors.white,
         shadowColor: Colors.black.withAlpha(39),
         iconTheme: IconThemeData(
-          color: Colors.black,
+          color: Color(0xFF264653),
         ),
         leading: IconButton(
           onPressed: () {
@@ -44,6 +44,7 @@ class _SearchScreenState extends State<SearchScreen> {
           controller: _queryController,
           focusNode: _searchFiedlFocusNode,
           style: TextStyle(
+            color: Color(0xFF264653),
             fontSize: 20.0,
             fontWeight: FontWeight.w500,
           ),

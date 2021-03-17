@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:greuse/components/my_posts_card.dart';
 
@@ -16,12 +17,19 @@ class _MyPostsScreenState extends State<MyPostsScreen> {
         backgroundColor: Colors.white,
         shadowColor: Colors.black.withAlpha(39),
         iconTheme: IconThemeData(
-          color: Colors.black,
+          color: Color(0xFF264653),
+        ),
+        leading: IconButton(
+          icon: Icon(CupertinoIcons.chevron_left),
+          tooltip: 'Back',
+          onPressed: () {
+            Navigator.pop(context);
+          },
         ),
         title: Text(
           'My posts',
           style: TextStyle(
-            color: Colors.black,
+            color: Color(0xFF264653),
             fontSize: 16.0,
             fontWeight: FontWeight.w500,
           ),

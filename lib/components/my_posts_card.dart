@@ -99,6 +99,7 @@ class MyPostsCard extends StatelessWidget {
                           splashColor: Colors.black26,
                           highlightColor: Colors.black12,
                           padding: EdgeInsets.zero,
+                          tooltip: 'Remove post',
                           icon: Icon(
                             Icons.cancel,
                             color: Colors.black.withAlpha(150),

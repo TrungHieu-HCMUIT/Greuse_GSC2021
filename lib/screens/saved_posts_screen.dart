@@ -17,7 +17,7 @@ class _SavedPostsScreenState extends State<SavedPostsScreen> {
         shadowColor: Colors.black.withAlpha(39),
         backgroundColor: Colors.white,
         iconTheme: IconThemeData(
-          color: Colors.black,
+          color: Color(0xFF264653),
         ),
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
@@ -26,7 +26,7 @@ class _SavedPostsScreenState extends State<SavedPostsScreen> {
         ),
         textTheme: TextTheme(
           headline6: TextStyle(
-            color: Colors.black,
+            color: Color(0xFF264653),
             fontSize: 18.0,
             fontWeight: FontWeight.w500,
           ),
