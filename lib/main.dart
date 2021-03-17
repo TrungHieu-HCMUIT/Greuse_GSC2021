@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:greuse/screens/add_screen.dart';
 import 'package:greuse/screens/home_screen.dart';
 import 'package:greuse/screens/messages_screen.dart';
+import 'package:greuse/screens/my_posts_screen.dart';
 import 'package:greuse/screens/news_feed_screen.dart';
 import 'package:greuse/screens/profile_screen.dart';
 import 'package:greuse/screens/saved_posts_screen.dart';
@@ -16,6 +17,7 @@ class MyApp extends StatelessWidget {
     ProfileScreen.id: (_) => ProfileScreen(),
     MessagesScreen.id: (_) => MessagesScreen(),
     SavedPostsScreen.id: (_) => SavedPostsScreen(),
+    MyPostsScreen.id: (_) => MyPostsScreen(),
   };
 
   @override

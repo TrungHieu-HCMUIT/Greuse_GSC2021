@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:greuse/components/floating_bottom_button.dart';
+import 'package:greuse/screens/my_posts_screen.dart';
 import 'package:greuse/screens/saved_posts_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -69,7 +70,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           SizedBox(width: 14.0),
                           Expanded(
                             child: MyCard(
-                              onTap: () {},
+                              onTap: () {
+                                Navigator.pushNamed(context, MyPostsScreen.id);
+                              },
                               icon: CupertinoIcons.news_solid,
                               iconColor: Color(0xFFE76F51),
                               label: 'My posts',
