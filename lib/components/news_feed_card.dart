@@ -88,46 +88,63 @@ class NewsFeedCard extends StatelessWidget {
               ),
             ),
           ),
-          Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: 12.0,
-              vertical: 5.0,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Shapoo bottle',
-                  style: TextStyle(
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.bold,
-                  ),
+          Stack(
+            children: [
+              Padding(
+                padding: EdgeInsets.only(
+                  left: 12.0,
+                  right: 45.0,
+                  top: 5.0,
+                  bottom: 5.0,
                 ),
-                Row(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Icon(
-                      CupertinoIcons.location,
-                      color: Theme.of(context).primaryColor,
-                    ),
                     Text(
-                      'TP HCM',
+                      'Shapoo bottle',
                       style: TextStyle(
                         fontSize: 16.0,
-                        color: Theme.of(context).primaryColor,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Row(
+                      children: [
+                        Icon(
+                          CupertinoIcons.location,
+                          color: Theme.of(context).primaryColor,
+                        ),
+                        Text(
+                          'TP HCM',
+                          style: TextStyle(
+                            fontSize: 16.0,
+                            color: Theme.of(context).primaryColor,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 4.0),
+                    Text(
+                      'Can be reused',
+                      style: TextStyle(
+                        fontSize: 14.0,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
                   ],
                 ),
-                SizedBox(height: 4.0),
-                Text(
-                  'Can be reused',
-                  style: TextStyle(
-                    fontSize: 14.0,
-                    fontWeight: FontWeight.w500,
+              ),
+              Positioned(
+                top: -6,
+                right: 0,
+                child: IconButton(
+                  onPressed: () {},
+                  icon: Icon(
+                    CupertinoIcons.bookmark_fill,
+                    color: Theme.of(context).primaryColor,
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ],
       ),
