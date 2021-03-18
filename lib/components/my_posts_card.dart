@@ -2,6 +2,23 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class MyPostsCard extends StatelessWidget {
+  final String avatarURL;
+  final String username;
+  final String productImage;
+  final String name;
+  final String material;
+  final String location;
+  final String description;
+  MyPostsCard({
+    @required this.avatarURL,
+    @required this.username,
+    @required this.productImage,
+    @required this.name,
+    @required this.material,
+    @required this.location,
+    @required this.description,
+  });
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -23,7 +40,7 @@ class MyPostsCard extends StatelessWidget {
               decoration: BoxDecoration(
                 image: DecorationImage(
                   fit: BoxFit.cover,
-                  image: AssetImage('assets/images/product1.png'),
+                  image: NetworkImage(productImage),
                 ),
               ),
               child: Stack(
@@ -52,14 +69,13 @@ class MyPostsCard extends StatelessWidget {
                           children: [
                             CircleAvatar(
                               backgroundColor: Theme.of(context).primaryColor,
-                              backgroundImage:
-                                  AssetImage('assets/images/avatar.png'),
+                              backgroundImage: NetworkImage(avatarURL),
                               radius: 24.0,
                             ),
                             SizedBox(width: 8.0),
                             Expanded(
                               child: Text(
-                                'trunghieu',
+                                username ?? 'Anonymous',
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 16.0,
@@ -75,7 +91,7 @@ class MyPostsCard extends StatelessWidget {
                                 horizontal: 15.0,
                               ),
                               child: Text(
-                                'Plastic',
+                                material ?? 'Unknown',
                                 style: TextStyle(
                                   fontSize: 14.0,
                                   color: Colors.white,
@@ -123,7 +139,7 @@ class MyPostsCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Shapoo bottle',
+                  name ?? 'Name',
                   style: TextStyle(
                     fontSize: 16.0,
                     fontWeight: FontWeight.bold,
@@ -136,7 +152,7 @@ class MyPostsCard extends StatelessWidget {
                       color: Theme.of(context).primaryColor,
                     ),
                     Text(
-                      'TP HCM',
+                      location ?? 'Location',
                       style: TextStyle(
                         fontSize: 16.0,
                         color: Theme.of(context).primaryColor,
@@ -146,7 +162,7 @@ class MyPostsCard extends StatelessWidget {
                 ),
                 SizedBox(height: 4.0),
                 Text(
-                  'Can be reused',
+                  description ?? 'Description',
                   style: TextStyle(
                     fontSize: 14.0,
                     fontWeight: FontWeight.w500,
