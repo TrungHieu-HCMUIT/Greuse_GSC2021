@@ -20,7 +20,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
         label: 'Log out',
         onPressed: () {},
       ),
-      backgroundColor: Colors.white,
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.only(bottom: 65.0),

@@ -12,13 +12,8 @@ class _MyPostsScreenState extends State<MyPostsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
-        shadowColor: Colors.black.withAlpha(39),
-        iconTheme: IconThemeData(
-          color: Color(0xFF264653),
-        ),
         leading: IconButton(
           icon: Icon(CupertinoIcons.chevron_left),
           tooltip: 'Back',
@@ -26,14 +21,7 @@ class _MyPostsScreenState extends State<MyPostsScreen> {
             Navigator.pop(context);
           },
         ),
-        title: Text(
-          'My posts',
-          style: TextStyle(
-            color: Color(0xFF264653),
-            fontSize: 16.0,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
+        title: Text('My posts'),
       ),
       body: ListView.separated(
           physics: BouncingScrollPhysics(),

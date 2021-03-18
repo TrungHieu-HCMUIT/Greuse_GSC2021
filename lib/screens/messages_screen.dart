@@ -11,24 +11,12 @@ class _MessagesScreenState extends State<MessagesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
-        shadowColor: Colors.black.withAlpha(39),
         backgroundColor: Colors.white,
-        iconTheme: IconThemeData(
-          color: Color(0xFF264653),
-        ),
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
           tooltip: 'Back',
           icon: Icon(CupertinoIcons.chevron_left),
-        ),
-        textTheme: TextTheme(
-          headline6: TextStyle(
-            color: Color(0xFF264653),
-            fontSize: 18.0,
-            fontWeight: FontWeight.w500,
-          ),
         ),
         title: Text('Messages'),
       ),

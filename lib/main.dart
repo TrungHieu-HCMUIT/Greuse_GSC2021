@@ -27,6 +27,24 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(
         primaryColor: Color(0xFF2A9D8F),
+        scaffoldBackgroundColor: Colors.white,
+        appBarTheme: AppBarTheme(
+          brightness: Brightness.light,
+          iconTheme: IconThemeData(
+            color: Color(0xFF264653),
+          ),
+          textTheme: TextTheme(
+            headline6: TextStyle(
+              color: Color(0xFF264653),
+              fontSize: 18.0,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          shadowColor: Colors.black.withAlpha(39),
+        ),
+        bottomNavigationBarTheme: BottomNavigationBarThemeData(
+          backgroundColor: Colors.white,
+        ),
       ),
       initialRoute: HomeScreen.id,
       onGenerateRoute: (settings) {

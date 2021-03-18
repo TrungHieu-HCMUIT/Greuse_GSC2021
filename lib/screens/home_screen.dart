@@ -22,7 +22,6 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: _screens.elementAt(_currentIndex),
-      backgroundColor: Colors.white,
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         onTap: (idx) {
@@ -30,7 +29,6 @@ class _HomeScreenState extends State<HomeScreen> {
             _currentIndex = idx;
           });
         },
-        backgroundColor: Colors.white,
         items: [
           BottomNavigationBarItem(
             icon: Icon(CupertinoIcons.home),

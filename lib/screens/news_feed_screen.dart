@@ -14,20 +14,10 @@ class _NewsFeedScreenState extends State<NewsFeedScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
-        shadowColor: Colors.black.withAlpha(39),
         backgroundColor: Colors.white,
         centerTitle: true,
-        title: Text(
-          'Greuse',
-          style: TextStyle(
-            color: Color(0xFF264653),
-          ),
-        ),
-        iconTheme: IconThemeData(
-          color: Color(0xFF264653),
-        ),
+        title: Text('Greuse'),
         leading: IconButton(
           icon: Icon(CupertinoIcons.search),
           tooltip: 'Search',

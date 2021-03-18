@@ -12,27 +12,16 @@ class _ExchangingLocationsScreenState extends State<ExchangingLocationsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
-        shadowColor: Colors.black.withAlpha(39),
         leading: IconButton(
           onPressed: () {
             Navigator.pop(context);
           },
           tooltip: 'Back',
-          icon: Icon(
-            CupertinoIcons.chevron_left,
-            color: Color(0xFF264653),
-          ),
+          icon: Icon(CupertinoIcons.chevron_left),
         ),
-        title: Text(
-          'Exchanging locations',
-          style: TextStyle(
-            fontSize: 16.0,
-            color: Color(0xFF264653),
-          ),
-        ),
+        title: Text('Exchanging locations'),
       ),
       body: ListView.separated(
         separatorBuilder: (context, index) {
