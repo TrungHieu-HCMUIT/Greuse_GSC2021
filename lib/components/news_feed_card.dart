@@ -2,6 +2,25 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class NewsFeedCard extends StatelessWidget {
+  final String avatarURL;
+  final String username;
+  final String productImage;
+  final String name;
+  final String material;
+  final String location;
+  final String description;
+  final bool isSaved;
+  NewsFeedCard({
+    @required this.avatarURL,
+    @required this.username,
+    @required this.productImage,
+    @required this.name,
+    @required this.material,
+    @required this.location,
+    @required this.description,
+    @required this.isSaved,
+  });
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -23,7 +42,7 @@ class NewsFeedCard extends StatelessWidget {
               decoration: BoxDecoration(
                 image: DecorationImage(
                   fit: BoxFit.cover,
-                  image: AssetImage('assets/images/product1.png'),
+                  image: NetworkImage(productImage),
                 ),
               ),
               child: Column(
@@ -50,14 +69,13 @@ class NewsFeedCard extends StatelessWidget {
                       children: [
                         CircleAvatar(
                           backgroundColor: Theme.of(context).primaryColor,
-                          backgroundImage:
-                              AssetImage('assets/images/avatar.png'),
+                          backgroundImage: NetworkImage(avatarURL),
                           radius: 24.0,
                         ),
                         SizedBox(width: 8.0),
                         Expanded(
                           child: Text(
-                            'trunghieu',
+                            username ?? 'Anonymous',
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 16.0,
@@ -73,7 +91,7 @@ class NewsFeedCard extends StatelessWidget {
                             horizontal: 15.0,
                           ),
                           child: Text(
-                            'Plastic',
+                            material ?? 'Unknown',
                             style: TextStyle(
                               fontSize: 14.0,
                               color: Colors.white,
@@ -101,7 +119,7 @@ class NewsFeedCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Shapoo bottle',
+                      name ?? 'Name',
                       style: TextStyle(
                         fontSize: 16.0,
                         fontWeight: FontWeight.bold,
@@ -114,7 +132,7 @@ class NewsFeedCard extends StatelessWidget {
                           color: Theme.of(context).primaryColor,
                         ),
                         Text(
-                          'TP HCM',
+                          location ?? 'Location',
                           style: TextStyle(
                             fontSize: 16.0,
                             color: Theme.of(context).primaryColor,
@@ -124,7 +142,7 @@ class NewsFeedCard extends StatelessWidget {
                     ),
                     SizedBox(height: 4.0),
                     Text(
-                      'Can be reused',
+                      description ?? 'Description',
                       style: TextStyle(
                         fontSize: 14.0,
                         fontWeight: FontWeight.w500,
@@ -139,7 +157,9 @@ class NewsFeedCard extends StatelessWidget {
                 child: IconButton(
                   onPressed: () {},
                   icon: Icon(
-                    CupertinoIcons.bookmark_fill,
+                    isSaved
+                        ? CupertinoIcons.bookmark_fill
+                        : CupertinoIcons.bookmark,
                     color: Theme.of(context).primaryColor,
                   ),
                 ),

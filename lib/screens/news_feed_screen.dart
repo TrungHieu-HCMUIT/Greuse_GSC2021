@@ -81,7 +81,17 @@ class _NewsFeedScreenState extends State<NewsFeedScreen> {
             horizontal: 36.0,
           ),
           itemBuilder: (context, index) {
-            return NewsFeedCard();
+            return NewsFeedCard(
+              username: 'khiemle',
+              avatarURL: 'https://wallpapercave.com/wp/wp7999906.jpg',
+              material: 'Paper',
+              productImage:
+                  'https://thunggiay.com/wp-content/uploads/2018/10/Mua-thung-giay-o-dau-uy-tin-va-chat-luong1.jpg',
+              name: 'Carton box',
+              location: 'TP HCM',
+              description: 'Can be reused',
+              isSaved: true,
+            );
           },
           separatorBuilder: (context, index) {
             return SizedBox(height: 25.0);
