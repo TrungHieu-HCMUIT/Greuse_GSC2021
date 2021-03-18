@@ -11,17 +11,19 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final _screens = [
-    NewsFeedScreen(),
-    AddScreen(),
-    ProfileScreen(),
-  ];
   int _currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _screens.elementAt(_currentIndex),
+      body: IndexedStack(
+        index: _currentIndex,
+        children: [
+          NewsFeedScreen(),
+          AddScreen(),
+          ProfileScreen(),
+        ],
+      ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         onTap: (idx) {
