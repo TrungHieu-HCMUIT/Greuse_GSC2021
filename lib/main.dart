@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:greuse/screens/add_screen.dart';
+import 'package:greuse/screens/exchanging_locations_screen.dart';
 import 'package:greuse/screens/home_screen.dart';
 import 'package:greuse/screens/messages_screen.dart';
 import 'package:greuse/screens/my_posts_screen.dart';
@@ -18,6 +19,7 @@ class MyApp extends StatelessWidget {
     MessagesScreen.id: (_) => MessagesScreen(),
     SavedPostsScreen.id: (_) => SavedPostsScreen(),
     MyPostsScreen.id: (_) => MyPostsScreen(),
+    ExchangingLocationsScreen.id: (_) => ExchangingLocationsScreen(),
   };
 
   @override

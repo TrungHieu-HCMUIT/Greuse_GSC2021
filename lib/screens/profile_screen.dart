@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:greuse/components/floating_bottom_button.dart';
+import 'package:greuse/screens/exchanging_locations_screen.dart';
 import 'package:greuse/screens/my_posts_screen.dart';
 import 'package:greuse/screens/saved_posts_screen.dart';
 
@@ -95,7 +96,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                 ),
                 ListItem(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.pushNamed(context, ExchangingLocationsScreen.id);
+                  },
                   leading: Image.asset('assets/icons/store.png'),
                   title: 'Exchanging location',
                 ),
