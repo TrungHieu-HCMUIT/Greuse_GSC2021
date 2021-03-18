@@ -12,6 +12,9 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  final avatarURL = 'https://wallpapercave.com/wp/wp7999906.jpg';
+  final username = 'khiemle';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,14 +39,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         child: Column(
                           children: [
                             CircleAvatar(
-                              backgroundImage:
-                                  AssetImage('assets/images/avatar.png'),
+                              backgroundImage: NetworkImage(avatarURL),
                               backgroundColor: Theme.of(context).primaryColor,
                               radius: 55.0,
                             ),
                             SizedBox(height: 10.0),
                             Text(
-                              'trunghieu',
+                              username ?? 'Anonymous',
                               style: TextStyle(
                                 fontSize: 20.0,
                                 fontWeight: FontWeight.bold,
