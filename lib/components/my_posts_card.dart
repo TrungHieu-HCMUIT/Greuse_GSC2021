@@ -1,23 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:greuse/ViewModels/news_feed_card_vm.dart';
 
 class MyPostsCard extends StatelessWidget {
-  final String avatarURL;
-  final String username;
-  final String productImage;
-  final String name;
-  final String material;
-  final String location;
-  final String description;
-  MyPostsCard({
-    @required this.avatarURL,
-    @required this.username,
-    @required this.productImage,
-    @required this.name,
-    @required this.material,
-    @required this.location,
-    @required this.description,
-  });
+  final NewsFeedCardVM viewModel;
+  MyPostsCard(this.viewModel);
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +27,7 @@ class MyPostsCard extends StatelessWidget {
               decoration: BoxDecoration(
                 image: DecorationImage(
                   fit: BoxFit.cover,
-                  image: NetworkImage(productImage),
+                  image: NetworkImage(viewModel.post.image),
                 ),
               ),
               child: Stack(
@@ -69,13 +56,14 @@ class MyPostsCard extends StatelessWidget {
                           children: [
                             CircleAvatar(
                               backgroundColor: Theme.of(context).primaryColor,
-                              backgroundImage: NetworkImage(avatarURL),
+                              backgroundImage:
+                                  NetworkImage(viewModel.user.avatarURL),
                               radius: 24.0,
                             ),
                             SizedBox(width: 8.0),
                             Expanded(
                               child: Text(
-                                username ?? 'Anonymous',
+                                viewModel.user.username ?? 'Anonymous',
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 16.0,
@@ -91,7 +79,7 @@ class MyPostsCard extends StatelessWidget {
                                 horizontal: 15.0,
                               ),
                               child: Text(
-                                material ?? 'Unknown',
+                                viewModel.post.material ?? 'Unknown',
                                 style: TextStyle(
                                   fontSize: 14.0,
                                   color: Colors.white,
@@ -139,7 +127,7 @@ class MyPostsCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  name ?? 'Name',
+                  viewModel.post.name ?? 'Name',
                   style: TextStyle(
                     fontSize: 16.0,
                     fontWeight: FontWeight.bold,
@@ -152,7 +140,7 @@ class MyPostsCard extends StatelessWidget {
                       color: Theme.of(context).primaryColor,
                     ),
                     Text(
-                      location ?? 'Location',
+                      viewModel.post.location ?? 'Location',
                       style: TextStyle(
                         fontSize: 16.0,
                         color: Theme.of(context).primaryColor,
@@ -162,7 +150,7 @@ class MyPostsCard extends StatelessWidget {
                 ),
                 SizedBox(height: 4.0),
                 Text(
-                  description ?? 'Description',
+                  viewModel.post.description ?? 'Description',
                   style: TextStyle(
                     fontSize: 14.0,
                     fontWeight: FontWeight.w500,
