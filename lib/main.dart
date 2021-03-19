@@ -7,6 +7,7 @@ import 'package:greuse/screens/my_posts_screen.dart';
 import 'package:greuse/screens/news_feed_screen.dart';
 import 'package:greuse/screens/profile_screen.dart';
 import 'package:greuse/screens/saved_posts_screen.dart';
+import 'package:greuse/screens/sign_in_screen.dart';
 
 void main() => runApp(MyApp());
 
@@ -20,6 +21,7 @@ class MyApp extends StatelessWidget {
     SavedPostsScreen.id: (_) => SavedPostsScreen(),
     MyPostsScreen.id: (_) => MyPostsScreen(),
     ExchangingLocationsScreen.id: (_) => ExchangingLocationsScreen(),
+    SignInScreen.id: (_) => SignInScreen(),
   };
 
   @override
@@ -45,8 +47,13 @@ class MyApp extends StatelessWidget {
         bottomNavigationBarTheme: BottomNavigationBarThemeData(
           backgroundColor: Colors.white,
         ),
+        buttonTheme: ButtonThemeData(
+          buttonColor: Color(0xFF2A9D8F),
+          textTheme: ButtonTextTheme.primary,
+          padding: EdgeInsets.all(12.0),
+        ),
       ),
-      initialRoute: HomeScreen.id,
+      initialRoute: SignInScreen.id,
       onGenerateRoute: (settings) {
         return PageRouteBuilder(
           pageBuilder: (context, animation, secondaryAnimation) {
