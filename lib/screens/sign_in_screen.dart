@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:greuse/screens/home_screen.dart';
 import 'package:greuse/screens/sign_up_screen.dart';
 
@@ -11,6 +12,9 @@ class SignInScreen extends StatefulWidget {
 
 class _SignInScreenState extends State<SignInScreen> {
   final _auth = FirebaseAuth.instance;
+  final _googleSignIn = GoogleSignIn(
+    scopes: ['email'],
+  );
   final _formKey = GlobalKey<FormState>();
   String _email;
   String _password;
@@ -74,8 +78,18 @@ class _SignInScreenState extends State<SignInScreen> {
     return null;
   }
 
-  void _signInWithGoogle() {
-    // TODO: Implement sign in with Google
+  void _signInWithGoogle() async {
+    try {
+      final googleUser = await _googleSignIn.signIn();
+      final googleAuth = await googleUser.authentication;
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+      await _auth.signInWithCredential(credential);
+    } catch (e) {
+      print(e);
+    }
   }
 
   void _signUp() {
