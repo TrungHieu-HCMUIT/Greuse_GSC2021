@@ -45,6 +45,10 @@ class _SignInScreenState extends State<SignInScreen> {
     // TODO: Implement sign in with Google
   }
 
+  void _signUp() {
+    // TODO: Implement _signUp function
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -97,6 +101,14 @@ class _SignInScreenState extends State<SignInScreen> {
                   color: Colors.red,
                   child: Text(
                     'Sign in with Google',
+                  ),
+                ),
+                SizedBox(height: 15.0),
+                RaisedButton(
+                  onPressed: _signUp,
+                  color: Colors.green,
+                  child: Text(
+                    'Sign up',
                   ),
                 ),
               ],
