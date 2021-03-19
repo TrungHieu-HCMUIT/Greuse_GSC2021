@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:greuse/screens/sign_up_screen.dart';
 
 class SignInScreen extends StatefulWidget {
   static const id = 'sign_in_screen';
@@ -46,7 +47,7 @@ class _SignInScreenState extends State<SignInScreen> {
   }
 
   void _signUp() {
-    // TODO: Implement _signUp function
+    Navigator.pushNamed(context, SignUpScreen.id);
   }
 
   @override
