@@ -1,9 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:greuse/components/floating_bottom_button.dart';
 import 'package:greuse/screens/exchanging_locations_screen.dart';
 import 'package:greuse/screens/my_posts_screen.dart';
 import 'package:greuse/screens/saved_posts_screen.dart';
+import 'package:greuse/screens/sign_in_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   static const id = 'profile_screen';
@@ -12,8 +14,13 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  final _auth = FirebaseAuth.instance;
   final avatarURL = 'https://wallpapercave.com/wp/wp7999906.jpg';
   final username = 'khiemle';
+
+  void _signOut() async {
+    await _auth.signOut();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +28,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingBottomButton(
         label: 'Log out',
-        onPressed: () {},
+        onPressed: _signOut,
       ),
       body: SafeArea(
         child: Padding(

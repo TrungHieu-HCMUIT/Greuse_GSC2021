@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:greuse/screens/home_screen.dart';
 import 'package:greuse/screens/sign_up_screen.dart';
 
 class SignInScreen extends StatefulWidget {
@@ -8,14 +10,44 @@ class SignInScreen extends StatefulWidget {
 }
 
 class _SignInScreenState extends State<SignInScreen> {
+  final _auth = FirebaseAuth.instance;
   final _formKey = GlobalKey<FormState>();
   String _email;
   String _password;
+  String _emailErrorText;
+  String _passwordErrorText;
 
-  void _signIn() {
+  Future _signIn() async {
+    setState(() {
+      _emailErrorText = null;
+      _passwordErrorText = null;
+    });
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
-      // TODO: use _email and _password for sign in
+      try {
+        await _auth.signInWithEmailAndPassword(
+          email: _email,
+          password: _password,
+        );
+      } catch (e) {
+        setState(() {
+          switch (e.code) {
+            case 'invalid-email':
+              _emailErrorText = 'Please enter a valid email';
+              break;
+            case 'user-disabled':
+              _emailErrorText = 'This user has been disabled';
+              break;
+            case 'user-not-found':
+              _emailErrorText = 'User not found';
+              break;
+            case 'wrong-password':
+              _passwordErrorText = 'Wrong password';
+              break;
+            default:
+          }
+        });
+      }
     }
   }
 
@@ -65,6 +97,7 @@ class _SignInScreenState extends State<SignInScreen> {
                 TextFormField(
                   decoration: InputDecoration(
                     labelText: 'Email',
+                    errorText: _emailErrorText,
                   ),
                   style: TextStyle(
                     fontSize: 18.0,
@@ -79,6 +112,7 @@ class _SignInScreenState extends State<SignInScreen> {
                   obscureText: true,
                   decoration: InputDecoration(
                     labelText: 'Password',
+                    errorText: _passwordErrorText,
                   ),
                   style: TextStyle(
                     fontSize: 18.0,
