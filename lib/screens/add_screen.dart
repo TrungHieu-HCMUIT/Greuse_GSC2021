@@ -13,19 +13,19 @@ class _AddScreenState extends State<AddScreen> {
   final _descriptionController = TextEditingController();
   final _productNameFocusNode = FocusNode();
   final _descriptionFocusNode = FocusNode();
-  final _materials = [
-    'Material',
-    'Material',
-    'Material',
-    'Material',
-    'Material',
-    'Material',
-    'Material',
-    'Material',
-    'Material',
-    'Material',
-    'Orthers...',
+  var _materials = [
+    'Material 1',
+    'Material 2',
+    'Material 3',
+    'Material 4',
+    'Material 5',
+    'Material 6',
+    'Material 7',
+    'Material 8',
+    'Material 9',
+    'others...',
   ];
+  String _material;
 
   void _showSucceedDialog(BuildContext context) {
     showDialog(
@@ -63,6 +63,23 @@ class _AddScreenState extends State<AddScreen> {
         ),
       ),
     );
+  }
+
+  List<Widget> _buildRadioList() {
+    final newList = <Widget>[];
+    for (int i = 0; i < _materials.length; i++) {
+      final m = _materials[i];
+      newList.add(MyRadio(
+          value: m,
+          label: m,
+          groupValue: _material,
+          onChanged: (value) {
+            setState(() {
+              _material = value;
+            });
+          }));
+    }
+    return newList;
   }
 
   @override
@@ -119,13 +136,7 @@ class _AddScreenState extends State<AddScreen> {
                   ),
                 ),
                 Wrap(
-                  children: _materials
-                      .map((m) => MyCheckBox(
-                            value: false,
-                            label: m,
-                            onChanged: (value) {},
-                          ))
-                      .toList(),
+                  children: _buildRadioList(),
                 ),
               ],
             ),
@@ -136,13 +147,15 @@ class _AddScreenState extends State<AddScreen> {
   }
 }
 
-class MyCheckBox extends StatelessWidget {
+class MyRadio extends StatelessWidget {
   final String label;
-  final bool value;
+  final dynamic value;
+  final dynamic groupValue;
   final Function onChanged;
-  MyCheckBox({
+  MyRadio({
     @required this.value,
     @required this.label,
+    @required this.groupValue,
     @required this.onChanged,
   });
 
@@ -152,8 +165,9 @@ class MyCheckBox extends StatelessWidget {
       width: MediaQuery.of(context).size.width / 2.8,
       child: Row(
         children: [
-          Checkbox(
+          Radio(
             value: value,
+            groupValue: groupValue,
             onChanged: onChanged,
           ),
           SizedBox(width: 10.0),
