@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class SignUpScreen extends StatefulWidget {
   static const id = 'sign_up_screen';
@@ -8,12 +9,16 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+  final _auth = FirebaseAuth.instance;
+
   final _formKey = GlobalKey<FormState>();
   final _passwordController = TextEditingController();
   String _email;
-  String _username;
+  String _displayname;
   String _password;
   String _confirmPassword;
+
+  String _emailErrorText;
 
   String _emailValidator(String email) {
     email = email.trim();
@@ -27,14 +32,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   void _onEmailSaved(String email) => _email = email.trim();
 
-  String _usernameValidator(String username) {
-    username = username.trim();
-    if (username.isEmpty) return 'Please enter your username';
-    if (username.length < 6) return 'Username must be at least 6 characters';
+  String _displaynameValidator(String displayname) {
+    displayname = displayname.trim();
+    if (displayname.isEmpty) return 'Please enter your Display Name';
+    if (displayname.length < 6)
+      return 'displayname must be at least 6 characters';
     return null;
   }
 
-  void _onUsernameSaved(String username) => _username = username.trim();
+  void _ondisplaynameSaved(String displayname) =>
+      _displayname = displayname.trim();
 
   String _passwordValidator(String password) {
     if (password.isEmpty) return 'Please enter password';
@@ -51,9 +58,26 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   void _onConfirmPasswordSaved(String password) => _confirmPassword = password;
 
-  void _signUp() {
+  void _signUp() async {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
+      try {
+        final newUser = await _auth.createUserWithEmailAndPassword(
+          email: _email,
+          password: _password,
+        );
+        if (newUser != null) {
+          Navigator.pop(context, _email);
+        }
+      } catch (e) {
+        setState(() {
+          switch (e.code) {
+            case 'email-already-in-use':
+              _emailErrorText = "Email already in use";
+              break;
+          }
+        });
+      }
     }
   }
 
@@ -83,6 +107,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 TextFormField(
                   decoration: InputDecoration(
                     labelText: 'Email',
+                    errorText: _emailErrorText,
                   ),
                   style: TextStyle(
                     fontSize: 18.0,
@@ -95,14 +120,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 SizedBox(height: 10.0),
                 TextFormField(
                   decoration: InputDecoration(
-                    labelText: 'Username',
+                    labelText: 'displayname',
                   ),
                   style: TextStyle(
                     fontSize: 18.0,
                   ),
                   textInputAction: TextInputAction.next,
-                  validator: _usernameValidator,
-                  onSaved: _onUsernameSaved,
+                  validator: _displaynameValidator,
+                  onSaved: _ondisplaynameSaved,
                 ),
                 SizedBox(height: 10.0),
                 TextFormField(
