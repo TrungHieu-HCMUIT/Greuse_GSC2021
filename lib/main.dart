@@ -54,6 +54,9 @@ class MyApp extends StatelessWidget {
           shadowColor: Colors.black.withAlpha(39),
         ),
         bottomNavigationBarTheme: BottomNavigationBarThemeData(
+          selectedLabelStyle: TextStyle(
+            fontSize: 12.0,
+          ),
           backgroundColor: Colors.white,
         ),
         buttonTheme: ButtonThemeData(

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:greuse/components/floating_bottom_button.dart';
+import 'package:image_picker/image_picker.dart';
 
 class AddScreen extends StatefulWidget {
   static const id = 'add_screen';
@@ -82,6 +83,59 @@ class _AddScreenState extends State<AddScreen> {
     return newList;
   }
 
+  Future<ImageSource> _chooseImageSource() async {
+    ImageSource source;
+    await showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return Container(
+          height: 200.0,
+          child: SingleChildScrollView(
+            padding: EdgeInsets.all(12.0),
+            child: Column(
+              children: [
+                Text(
+                  'Choose image from',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 18.0,
+                  ),
+                ),
+                SizedBox(height: 12.0),
+                ListTile(
+                  title: Text('Camera'),
+                  onTap: () {
+                    source = ImageSource.camera;
+                    Navigator.pop(context);
+                  },
+                ),
+                ListTile(
+                  title: Text('Gallary'),
+                  onTap: () {
+                    source = ImageSource.gallery;
+                    Navigator.pop(context);
+                  },
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+    return source;
+  }
+
+  void _chooseImage() async {
+    final imageSource = await _chooseImageSource();
+    if (imageSource != null) {
+      final pickedImage = await ImagePicker().getImage(
+        source: imageSource,
+        imageQuality: 85,
+      );
+      // TODO: Upload to Cloud Storage
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -102,7 +156,7 @@ class _AddScreenState extends State<AddScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 MyButton(
-                  onPressed: () {},
+                  onPressed: _chooseImage,
                   icon: CupertinoIcons.photo,
                   label: 'Choose image',
                 ),
