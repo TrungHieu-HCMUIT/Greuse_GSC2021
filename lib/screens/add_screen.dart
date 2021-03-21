@@ -223,7 +223,10 @@ class _AddScreenState extends State<AddScreen> {
                 Center(
                   child: Column(
                     children: [
-                      Image.asset('assets/icons/point.png'),
+                      Image.asset(
+                        'assets/icons/point.png',
+                        scale: 3,
+                      ),
                       SizedBox(height: 5),
                       Text(
                         '599',

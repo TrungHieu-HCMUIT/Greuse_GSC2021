@@ -100,28 +100,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ],
                   ),
                 ),
-                ListItem(
-                  onTap: () {},
-                  leading: Image.asset('assets/icons/point.png'),
-                  title: 'Greuse points',
-                  trailing: Text(
-                    '59',
-                    style: TextStyle(
-                      fontSize: 16.0,
-                    ),
+                SizedBox(height: 20),
+                Center(
+                  child: Column(
+                    children: [
+                      Image.asset(
+                        'assets/icons/point.png',
+                        scale: 1.2,
+                      ),
+                      SizedBox(height: 25),
+                      Text(
+                        '599',
+                        style: TextStyle(
+                          fontSize: 36,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-                ListItem(
-                  onTap: () {
-                    Navigator.pushNamed(context, ExchangingLocationsScreen.id);
-                  },
-                  leading: Image.asset('assets/icons/store.png'),
-                  title: 'Exchanging location',
-                ),
-                ListItem(
-                  onTap: () {},
-                  leading: Image.asset('assets/icons/exchange.png'),
-                  title: 'Exchanging board',
                 ),
               ],
             ),

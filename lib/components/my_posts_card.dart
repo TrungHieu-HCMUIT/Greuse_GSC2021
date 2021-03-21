@@ -127,7 +127,7 @@ class MyPostsCard extends StatelessWidget {
                 left: 10,
                 child: Container(
                   padding: EdgeInsets.symmetric(
-                    vertical: 8.0,
+                    vertical: 5.0,
                     horizontal: 12.0,
                   ),
                   decoration: BoxDecoration(
@@ -146,7 +146,7 @@ class MyPostsCard extends StatelessWidget {
                     children: [
                       Image.asset(
                         'assets/icons/point.png',
-                        scale: 2.0,
+                        scale: 5.0,
                       ),
                       SizedBox(width: 5),
                       Text(
