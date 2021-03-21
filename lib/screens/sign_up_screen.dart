@@ -91,84 +91,161 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        title: Text('Sign up'),
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          tooltip: 'Back',
-          icon: Icon(CupertinoIcons.chevron_left),
-        ),
-      ),
-      body: Center(
-        child: SingleChildScrollView(
-          physics: BouncingScrollPhysics(),
-          padding: EdgeInsets.all(32.0),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
+      // appBar: AppBar(
+      //   backgroundColor: Colors.white,
+      //   title: Text('Sign up'),
+      //   leading: IconButton(
+      //     onPressed: () {
+      //       Navigator.pop(context);
+      //     },
+      //     tooltip: 'Back',
+      //     icon: Icon(CupertinoIcons.chevron_left),
+      //   ),
+      // ),
+      body: Column(
+        children: [
+          Expanded(
+            child: Center(
+              child: SingleChildScrollView(
+                physics: BouncingScrollPhysics(),
+                padding: EdgeInsets.all(32.0),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      Image.asset(
+                        'assets/icons/app_logo.png',
+                        scale: 3.0,
+                      ),
+                      SizedBox(height: 40),
+                      TextFormField(
+                        decoration: InputDecoration(
+                          labelText: 'Email',
+                          errorText: _emailErrorText,
+                          contentPadding: EdgeInsets.symmetric(
+                            vertical: 0,
+                            horizontal: 10,
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                        ),
+                        style: TextStyle(
+                          fontSize: 18.0,
+                        ),
+                        keyboardType: TextInputType.emailAddress,
+                        textInputAction: TextInputAction.next,
+                        validator: _emailValidator,
+                        onSaved: _onEmailSaved,
+                      ),
+                      SizedBox(height: 10.0),
+                      TextFormField(
+                        decoration: InputDecoration(
+                          labelText: 'Display name',
+                          contentPadding: EdgeInsets.symmetric(
+                            vertical: 0,
+                            horizontal: 10,
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                        ),
+                        style: TextStyle(
+                          fontSize: 18.0,
+                        ),
+                        textInputAction: TextInputAction.next,
+                        validator: _displaynameValidator,
+                        onSaved: _ondisplaynameSaved,
+                      ),
+                      SizedBox(height: 10.0),
+                      TextFormField(
+                        controller: _passwordController,
+                        decoration: InputDecoration(
+                          labelText: 'Password',
+                          contentPadding: EdgeInsets.symmetric(
+                            vertical: 0,
+                            horizontal: 10,
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                        ),
+                        style: TextStyle(
+                          fontSize: 18.0,
+                        ),
+                        obscureText: true,
+                        textInputAction: TextInputAction.next,
+                        validator: _passwordValidator,
+                        onSaved: _onPasswordSaved,
+                      ),
+                      SizedBox(height: 10),
+                      TextFormField(
+                        decoration: InputDecoration(
+                          labelText: 'Confirm password',
+                          contentPadding: EdgeInsets.symmetric(
+                            vertical: 0,
+                            horizontal: 10,
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                        ),
+                        style: TextStyle(
+                          fontSize: 18.0,
+                        ),
+                        obscureText: true,
+                        validator: _confirmPasswordValidator,
+                      ),
+                      SizedBox(height: 15.0),
+                      ElevatedButton(
+                        onPressed: _signUp,
+                        child: Text('Sign up'),
+                        style: ElevatedButton.styleFrom(
+                          primary: Theme.of(context).primaryColor,
+                          onPrimary: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          minimumSize: Size(165, 45),
+                          textStyle: TextStyle(
+                            fontSize: 20.0,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(bottom: 8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                TextFormField(
-                  decoration: InputDecoration(
-                    labelText: 'Email',
-                    errorText: _emailErrorText,
-                  ),
+                Text(
+                  "Already have an account? ",
                   style: TextStyle(
-                    fontSize: 18.0,
+                    fontSize: 16.0,
                   ),
-                  keyboardType: TextInputType.emailAddress,
-                  textInputAction: TextInputAction.next,
-                  validator: _emailValidator,
-                  onSaved: _onEmailSaved,
                 ),
-                SizedBox(height: 10.0),
-                TextFormField(
-                  decoration: InputDecoration(
-                    labelText: 'Display name',
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text(
+                    "Sign in",
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      color: Theme.of(context).primaryColor,
+                    ),
                   ),
-                  style: TextStyle(
-                    fontSize: 18.0,
-                  ),
-                  textInputAction: TextInputAction.next,
-                  validator: _displaynameValidator,
-                  onSaved: _ondisplaynameSaved,
-                ),
-                SizedBox(height: 10.0),
-                TextFormField(
-                  controller: _passwordController,
-                  decoration: InputDecoration(
-                    labelText: 'Password',
-                  ),
-                  style: TextStyle(
-                    fontSize: 18.0,
-                  ),
-                  obscureText: true,
-                  textInputAction: TextInputAction.next,
-                  validator: _passwordValidator,
-                  onSaved: _onPasswordSaved,
-                ),
-                TextFormField(
-                  decoration: InputDecoration(
-                    labelText: 'Confirm password',
-                  ),
-                  style: TextStyle(
-                    fontSize: 18.0,
-                  ),
-                  obscureText: true,
-                  validator: _confirmPasswordValidator,
-                ),
-                SizedBox(height: 15.0),
-                ElevatedButton(
-                  onPressed: _signUp,
-                  child: Text('Sign up'),
                 ),
               ],
             ),
           ),
-        ),
+        ],
       ),
     );
   }
