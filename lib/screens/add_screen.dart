@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:greuse/components/floating_bottom_button.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
@@ -11,8 +12,10 @@ class AddScreen extends StatefulWidget {
 }
 
 class _AddScreenState extends State<AddScreen> {
+  final _weightController = TextEditingController();
   final _productNameController = TextEditingController();
   final _descriptionController = TextEditingController();
+  final _weightFocusNode = FocusNode();
   final _productNameFocusNode = FocusNode();
   final _descriptionFocusNode = FocusNode();
   var _materials = [
@@ -205,6 +208,33 @@ class _AddScreenState extends State<AddScreen> {
                 Wrap(
                   children: _buildRadioList(),
                 ),
+                SizedBox(height: 12),
+                MyTextField(
+                  controller: _weightController,
+                  focusNode: _weightFocusNode,
+                  hintText: "Weight",
+                  keyboardType: TextInputType.number,
+                  icon: ImageIcon(
+                    AssetImage('assets/icons/weight.png'),
+                    color: Theme.of(context).primaryColor,
+                  ),
+                ),
+                SizedBox(height: 20),
+                Center(
+                  child: Column(
+                    children: [
+                      Image.asset('assets/icons/point.png'),
+                      SizedBox(height: 5),
+                      Text(
+                        '599',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
@@ -255,10 +285,12 @@ class MyTextField extends StatelessWidget {
   final String hintText;
   final Widget icon;
   final FocusNode focusNode;
+  final TextInputType keyboardType;
   MyTextField({
     @required this.controller,
     @required this.hintText,
     @required this.icon,
+    this.keyboardType,
     this.focusNode,
   });
 
@@ -267,6 +299,7 @@ class MyTextField extends StatelessWidget {
     return TextField(
       controller: controller,
       focusNode: focusNode,
+      keyboardType: keyboardType,
       decoration: InputDecoration(
         icon: icon,
         hintText: hintText ?? 'Enter your text',
