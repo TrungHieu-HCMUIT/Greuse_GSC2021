@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+final _firestore = FirebaseFirestore.instance;
 
 class SignUpScreen extends StatefulWidget {
   static const id = 'sign_up_screen';
@@ -67,7 +70,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
           password: _password,
         );
         if (newUser != null) {
-          Navigator.pop(context, _email);
+          _firestore.collection('users').add({
+            'email': newUser.user.email,
+            'uid': newUser.user.uid,
+            'name': _displayname,
+            'isEmailVerified': newUser.user.emailVerified,
+            'photoUrl': "https://wallpapercave.com/wp/wp7999906.jpg",
+          });
+          Navigator.pop(context);
         }
       } catch (e) {
         setState(() {
