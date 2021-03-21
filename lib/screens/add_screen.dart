@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:greuse/components/floating_bottom_button.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:multi_image_picker/multi_image_picker.dart';
 
 class AddScreen extends StatefulWidget {
   static const id = 'add_screen';
@@ -128,10 +129,15 @@ class _AddScreenState extends State<AddScreen> {
   void _chooseImage() async {
     final imageSource = await _chooseImageSource();
     if (imageSource != null) {
-      final pickedImage = await ImagePicker().getImage(
-        source: imageSource,
-        imageQuality: 85,
-      );
+      if (imageSource == ImageSource.camera) {
+        final pickedImage = await ImagePicker().getImage(
+          source: imageSource,
+          imageQuality: 85,
+        );
+        print(pickedImage);
+      } else {
+        final pickedImages = await MultiImagePicker.pickImages(maxImages: 5);
+      }
       // TODO: Upload to Cloud Storage
     }
   }
