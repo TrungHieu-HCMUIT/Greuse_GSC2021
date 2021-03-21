@@ -91,6 +91,10 @@ class _SignInScreenState extends State<SignInScreen> {
     }
   }
 
+  void _signInWithFacebook() {
+    // TODO: Implement signin with facebook
+  }
+
   void _signUp() {
     Navigator.pushNamed(context, SignUpScreen.id);
   }
@@ -98,77 +102,164 @@ class _SignInScreenState extends State<SignInScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: SingleChildScrollView(
-          physics: BouncingScrollPhysics(),
-          padding: EdgeInsets.all(32.0),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
+      body: Column(
+        children: [
+          Expanded(
+            child: Center(
+              child: SingleChildScrollView(
+                physics: BouncingScrollPhysics(),
+                padding: EdgeInsets.all(32.0),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    // crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Image.asset(
+                        'assets/icons/app_logo.png',
+                        scale: 3.0,
+                      ),
+                      SizedBox(height: 40),
+                      TextFormField(
+                        decoration: InputDecoration(
+                          labelText: 'Email',
+                          errorText: _emailErrorText,
+                          contentPadding: EdgeInsets.symmetric(
+                            vertical: 0,
+                            horizontal: 10,
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                        ),
+                        style: TextStyle(
+                          fontSize: 18.0,
+                        ),
+                        keyboardType: TextInputType.emailAddress,
+                        textInputAction: TextInputAction.next,
+                        validator: _emailValidator,
+                        onSaved: _onEmailSaved,
+                      ),
+                      SizedBox(height: 15.0),
+                      TextFormField(
+                        obscureText: true,
+                        decoration: InputDecoration(
+                          labelText: 'Password',
+                          errorText: _passwordErrorText,
+                          contentPadding: EdgeInsets.symmetric(
+                            vertical: 0,
+                            horizontal: 10,
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                        ),
+                        style: TextStyle(
+                          fontSize: 18.0,
+                        ),
+                        validator: _passwordValidator,
+                        onChanged: _onPasswordSaved,
+                      ),
+                      SizedBox(height: 15.0),
+                      ElevatedButton(
+                        onPressed: _signIn,
+                        child: Text('SIGN IN'),
+                        style: ElevatedButton.styleFrom(
+                          primary: Theme.of(context).primaryColor,
+                          onPrimary: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          minimumSize: Size(165, 45),
+                          textStyle: TextStyle(
+                            fontSize: 20.0,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 30.0),
+                      Text(
+                        'OR',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 18,
+                        ),
+                      ),
+                      SizedBox(height: 30.0),
+                      OutlinedButton.icon(
+                        onPressed: _signInWithGoogle,
+                        style: OutlinedButton.styleFrom(
+                            minimumSize: Size(250, 40),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(0),
+                            ),
+                            primary: Colors.blueGrey,
+                            textStyle: TextStyle(
+                              fontSize: 18,
+                            ),
+                            padding: EdgeInsets.symmetric(
+                              vertical: 8,
+                              horizontal: 12,
+                            )),
+                        icon: Image.asset(
+                          'assets/icons/google.png',
+                          scale: 16.5,
+                        ),
+                        label: Text('Sign in with Google'),
+                      ),
+                      SizedBox(height: 5.0),
+                      OutlinedButton.icon(
+                        onPressed: _signInWithFacebook,
+                        style: OutlinedButton.styleFrom(
+                            minimumSize: Size(250, 40),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(0),
+                            ),
+                            primary: Colors.blueGrey,
+                            textStyle: TextStyle(
+                              fontSize: 18,
+                            ),
+                            padding: EdgeInsets.symmetric(
+                              vertical: 8,
+                              horizontal: 12,
+                            )),
+                        icon: Image.asset(
+                          'assets/icons/facebook.png',
+                          scale: 16.5,
+                        ),
+                        label: Text('Sign in with Facebook'),
+                      ),
+                      SizedBox(height: 15.0),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(bottom: 8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                TextFormField(
-                  decoration: InputDecoration(
-                    labelText: 'Email',
-                    errorText: _emailErrorText,
-                  ),
-                  style: TextStyle(
-                    fontSize: 18.0,
-                  ),
-                  keyboardType: TextInputType.emailAddress,
-                  textInputAction: TextInputAction.next,
-                  validator: _emailValidator,
-                  onSaved: _onEmailSaved,
-                ),
-                SizedBox(height: 10.0),
-                TextFormField(
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    labelText: 'Password',
-                    errorText: _passwordErrorText,
-                  ),
-                  style: TextStyle(
-                    fontSize: 18.0,
-                  ),
-                  validator: _passwordValidator,
-                  onChanged: _onPasswordSaved,
-                ),
-                SizedBox(height: 15.0),
-                ElevatedButton(
-                  onPressed: _signIn,
-                  child: Text('Sign in'),
-                ),
-                SizedBox(height: 30.0),
                 Text(
-                  'Or',
-                  textAlign: TextAlign.center,
-                ),
-                SizedBox(height: 30.0),
-                ElevatedButton(
-                  onPressed: _signInWithGoogle,
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.red,
-                    onPrimary: Colors.white,
-                  ),
-                  child: Text(
-                    'Sign in with Google',
+                  "Dont't have an account? ",
+                  style: TextStyle(
+                    fontSize: 16.0,
                   ),
                 ),
-                SizedBox(height: 15.0),
-                ElevatedButton(
-                  onPressed: _signUp,
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.green,
-                    onPrimary: Colors.white,
-                  ),
+                GestureDetector(
+                  onTap: _signUp,
                   child: Text(
-                    'Sign up',
+                    "Sign up",
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      color: Theme.of(context).primaryColor,
+                    ),
                   ),
                 ),
               ],
             ),
           ),
-        ),
+        ],
       ),
     );
   }
