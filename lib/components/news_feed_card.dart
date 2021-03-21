@@ -63,7 +63,7 @@ class NewsFeedCard extends StatelessWidget {
                             SizedBox(width: 8.0),
                             Expanded(
                               child: Text(
-                                viewModel.user.username ?? 'Anonymous',
+                                viewModel.user.displayname ?? 'Anonymous',
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 16.0,

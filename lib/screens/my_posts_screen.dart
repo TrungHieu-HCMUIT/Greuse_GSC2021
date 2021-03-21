@@ -20,7 +20,7 @@ class _MyPostsScreenState extends State<MyPostsScreen> {
       NewsFeedCardVM(
         user: User(
           id: 'userid',
-          username: 'khiemle',
+          displayname: 'khiemle',
           avatarURL: 'https://wallpapercave.com/wp/wp7999906.jpg',
           email: 'user@email.com',
         ),
