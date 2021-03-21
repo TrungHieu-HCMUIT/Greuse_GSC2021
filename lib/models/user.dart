@@ -2,12 +2,12 @@ import 'package:flutter/foundation.dart';
 
 class User {
   final String id;
-  final String username;
+  final String displayname;
   final String email;
   final String avatarURL;
   User({
     this.id,
-    @required this.username,
+    @required this.displayname,
     @required this.email,
     @required this.avatarURL,
   });
@@ -15,7 +15,7 @@ class User {
   Map<String, dynamic> toJson() {
     return {
       id: id,
-      username: username,
+      displayname: displayname,
       email: email,
       avatarURL: avatarURL,
     };
@@ -24,7 +24,7 @@ class User {
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
       id: json['id'],
-      username: json['username'],
+      displayname: json['displayname'],
       email: json['email'],
       avatarURL: json['avatarURL'],
     );
