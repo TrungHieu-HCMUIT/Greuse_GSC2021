@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:greuse/screens/chat_screen.dart';
 
 class MessagesScreen extends StatefulWidget {
   static const id = 'messages_screen';
@@ -28,35 +29,40 @@ class _MessagesScreenState extends State<MessagesScreen> {
         padding: EdgeInsets.all(32.0),
         itemCount: 3,
         itemBuilder: (context, index) {
-          return Row(
-            children: [
-              CircleAvatar(
-                backgroundColor: Theme.of(context).primaryColor,
-                backgroundImage: AssetImage('assets/images/avatar.png'),
-                radius: 28.0,
-              ),
-              SizedBox(width: 16.0),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'trunghieu',
-                      style: TextStyle(
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    SizedBox(height: 7.0),
-                    Text(
-                      'Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs',
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ],
+          return InkWell(
+            onTap: () {
+              Navigator.pushNamed(context, ChatScreen.id);
+            },
+            child: Row(
+              children: [
+                CircleAvatar(
+                  backgroundColor: Theme.of(context).primaryColor,
+                  backgroundImage: AssetImage('assets/images/avatar.png'),
+                  radius: 28.0,
                 ),
-              ),
-            ],
+                SizedBox(width: 16.0),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'trunghieu',
+                        style: TextStyle(
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      SizedBox(height: 7.0),
+                      Text(
+                        'Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           );
         },
       ),

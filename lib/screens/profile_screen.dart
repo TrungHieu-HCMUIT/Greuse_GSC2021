@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:greuse/components/floating_bottom_button.dart';
-import 'package:greuse/screens/exchanging_locations_screen.dart';
 import 'package:greuse/screens/my_posts_screen.dart';
 import 'package:greuse/screens/saved_posts_screen.dart';
 

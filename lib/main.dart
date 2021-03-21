@@ -2,7 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:greuse/screens/add_screen.dart';
 import 'package:greuse/screens/auth_screen.dart';
-import 'package:greuse/screens/exchanging_locations_screen.dart';
+import 'package:greuse/screens/chat_screen.dart';
 import 'package:greuse/screens/home_screen.dart';
 import 'package:greuse/screens/messages_screen.dart';
 import 'package:greuse/screens/my_posts_screen.dart';
@@ -28,11 +28,11 @@ class MyApp extends StatelessWidget {
     MessagesScreen.id: (_) => MessagesScreen(),
     SavedPostsScreen.id: (_) => SavedPostsScreen(),
     MyPostsScreen.id: (_) => MyPostsScreen(),
-    ExchangingLocationsScreen.id: (_) => ExchangingLocationsScreen(),
     SignInScreen.id: (_) => SignInScreen(),
     SignUpScreen.id: (_) => SignUpScreen(),
     AuthScreen.id: (_) => AuthScreen(),
     PointsScreen.id: (_) => PointsScreen(),
+    ChatScreen.id: (_) => ChatScreen(),
   };
 
   @override
