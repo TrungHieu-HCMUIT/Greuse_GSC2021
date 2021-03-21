@@ -67,12 +67,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
           password: _password,
         );
         if (newUser != null) {
-          _firestore.collection('users').add({
+          _firestore.collection('users').doc(newUser.user.uid).set({
             'email': newUser.user.email,
             'uid': newUser.user.uid,
             'name': _displayname,
             'isEmailVerified': newUser.user.emailVerified,
             'photoUrl': "https://wallpapercave.com/wp/wp7999906.jpg",
+            'points': 0,
           });
           Navigator.pop(context);
         }

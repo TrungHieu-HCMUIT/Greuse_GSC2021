@@ -5,6 +5,9 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:greuse/components/floating_bottom_button.dart';
 import 'package:greuse/screens/my_posts_screen.dart';
 import 'package:greuse/screens/saved_posts_screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+final _firestore = FirebaseFirestore.instance;
 
 class ProfileScreen extends StatefulWidget {
   static const id = 'profile_screen';
@@ -15,8 +18,31 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   final _auth = FirebaseAuth.instance;
   final _googleSignIn = GoogleSignIn();
-  final avatarURL = 'https://wallpapercave.com/wp/wp7999906.jpg';
-  final username = 'khiemle';
+  String avatarURL = "https://wallpapercave.com/wp/wp7999906.jpg";
+  String username = "";
+  int userPoints = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    getCurrentUser();
+  }
+
+  void getCurrentUser() async {
+    try {
+      final userID = _auth.currentUser.uid;
+      final user = await _firestore.collection('users').doc(userID).get();
+      if (user != null) {
+        // TODO: Get current user from firestore
+        print(user.data());
+        avatarURL = user.data()['photoUrl'];
+        username = user.data()['name'];
+        userPoints = user.data()['points'];
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
 
   void _signOut() async {
     if (await _googleSignIn.isSignedIn()) {
@@ -109,7 +135,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                       SizedBox(height: 25),
                       Text(
-                        '599',
+                        "$userPoints",
                         style: TextStyle(
                           fontSize: 36,
                           fontWeight: FontWeight.bold,
