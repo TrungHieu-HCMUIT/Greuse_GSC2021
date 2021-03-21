@@ -133,65 +133,112 @@ class NewsFeedCard extends StatelessWidget {
               ),
             ],
           ),
-          Stack(
-            children: [
-              Padding(
-                padding: EdgeInsets.only(
-                  left: 12.0,
-                  right: 45.0,
-                  top: 5.0,
-                  bottom: 5.0,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+          Padding(
+            padding: EdgeInsets.symmetric(
+              vertical: 5,
+              horizontal: 12,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Row(
                   children: [
-                    Text(
-                      viewModel.post.name ?? 'Name',
-                      style: TextStyle(
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Row(
-                      children: [
-                        ImageIcon(
-                          AssetImage('assets/icons/location.png'),
-                          color: Theme.of(context).primaryColor,
-                        ),
-                        Text(
-                          viewModel.post.location ?? 'Location',
-                          style: TextStyle(
-                            fontSize: 16.0,
-                            color: Theme.of(context).primaryColor,
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(15.0),
+                      child: Material(
+                        child: InkWell(
+                          onTap: () {},
+                          child: ImageIcon(
+                            AssetImage('assets/icons/ThumbsUp.png'),
+                            size: 32.0,
                           ),
                         ),
-                      ],
+                      ),
                     ),
-                    SizedBox(height: 4.0),
-                    Text(
-                      viewModel.post.description ?? 'Description',
-                      style: TextStyle(
-                        fontSize: 14.0,
-                        fontWeight: FontWeight.w500,
+                    SizedBox(width: 12),
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(15.0),
+                      child: Material(
+                        child: InkWell(
+                          onTap: () {},
+                          child: ImageIcon(
+                            AssetImage('assets/icons/ChatTeardropDots.png'),
+                            size: 32.0,
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 12),
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(15.0),
+                      child: Material(
+                        child: InkWell(
+                          onTap: () {},
+                          child: ImageIcon(
+                            AssetImage('assets/icons/paper_air_plane_45d.png'),
+                            size: 32.0,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: Container(),
+                    ),
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(30.0),
+                      child: Material(
+                        child: InkWell(
+                          onTap: () {},
+                          child: Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: ImageIcon(
+                              AssetImage(
+                                viewModel.post.isSaved
+                                    ? 'assets/icons/bookmark_filled.png'
+                                    : 'assets/icons/bookmark.png',
+                              ),
+                              size: 32.0,
+                              color: Theme.of(context).primaryColor,
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                   ],
                 ),
-              ),
-              Positioned(
-                top: -6,
-                right: 0,
-                child: IconButton(
-                  onPressed: () {},
-                  icon: ImageIcon(
-                    viewModel.post.isSaved
-                        ? AssetImage('assets/icons/bookmark_filled.png')
-                        : AssetImage('assets/icons/bookmark.png'),
-                    color: Theme.of(context).primaryColor,
+                SizedBox(height: 12),
+                Text(
+                  viewModel.post.name ?? 'Name',
+                  style: TextStyle(
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-              ),
-            ],
+                Row(
+                  children: [
+                    ImageIcon(
+                      AssetImage('assets/icons/location.png'),
+                      color: Theme.of(context).primaryColor,
+                    ),
+                    Text(
+                      viewModel.post.location ?? 'Location',
+                      style: TextStyle(
+                        fontSize: 16.0,
+                        color: Theme.of(context).primaryColor,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 4.0),
+                Text(
+                  viewModel.post.description ?? 'Description',
+                  style: TextStyle(
+                    fontSize: 14.0,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
       ),
