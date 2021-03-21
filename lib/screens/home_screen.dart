@@ -33,15 +33,15 @@ class _HomeScreenState extends State<HomeScreen> {
         },
         items: [
           BottomNavigationBarItem(
-            icon: Icon(CupertinoIcons.home),
+            icon: ImageIcon(AssetImage('assets/icons/home.png')),
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(CupertinoIcons.add_circled),
+            icon: ImageIcon(AssetImage('assets/icons/plus.png')),
             label: 'Add',
           ),
           BottomNavigationBarItem(
-            icon: Icon(CupertinoIcons.profile_circled),
+            icon: ImageIcon(AssetImage('assets/icons/profile.png')),
             label: 'Profile',
           ),
         ],

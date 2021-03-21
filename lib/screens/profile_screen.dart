@@ -76,8 +76,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 Navigator.pushNamed(
                                     context, SavedPostsScreen.id);
                               },
-                              icon: CupertinoIcons.bookmark_fill,
-                              iconColor: Color(0xFFE9C46A),
+                              icon: Image.asset(
+                                'assets/icons/saved_post.png',
+                                scale: 2.4,
+                              ),
                               label: 'Saved posts',
                             ),
                           ),
@@ -87,8 +89,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               onTap: () {
                                 Navigator.pushNamed(context, MyPostsScreen.id);
                               },
-                              icon: CupertinoIcons.news_solid,
-                              iconColor: Color(0xFFE76F51),
+                              icon: Image.asset(
+                                'assets/icons/my_posts.png',
+                                scale: 2.4,
+                              ),
                               label: 'My posts',
                             ),
                           ),
@@ -172,13 +176,11 @@ class ListItem extends StatelessWidget {
 }
 
 class MyCard extends StatelessWidget {
-  final IconData icon;
-  final Color iconColor;
+  final Widget icon;
   final String label;
   final Function onTap;
   MyCard({
     @required this.icon,
-    @required this.iconColor,
     @required this.label,
     @required this.onTap,
   });
@@ -198,13 +200,7 @@ class MyCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  CircleAvatar(
-                    child: Icon(
-                      icon ?? Icons.warning,
-                      color: iconColor ?? Colors.yellow,
-                    ),
-                    backgroundColor: iconColor.withAlpha(100),
-                  ),
+                  icon,
                   SizedBox(height: 12.0),
                   Text(
                     label,

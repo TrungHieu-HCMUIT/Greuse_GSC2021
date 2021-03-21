@@ -113,8 +113,8 @@ class NewsFeedCard extends StatelessWidget {
                     ),
                     Row(
                       children: [
-                        Icon(
-                          CupertinoIcons.location,
+                        ImageIcon(
+                          AssetImage('assets/icons/location.png'),
                           color: Theme.of(context).primaryColor,
                         ),
                         Text(
@@ -142,10 +142,10 @@ class NewsFeedCard extends StatelessWidget {
                 right: 0,
                 child: IconButton(
                   onPressed: () {},
-                  icon: Icon(
+                  icon: ImageIcon(
                     viewModel.post.isSaved
-                        ? CupertinoIcons.bookmark_fill
-                        : CupertinoIcons.bookmark,
+                        ? AssetImage('assets/icons/bookmark_filled.png')
+                        : AssetImage('assets/icons/bookmark.png'),
                     color: Theme.of(context).primaryColor,
                   ),
                 ),

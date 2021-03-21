@@ -62,7 +62,7 @@ class _SearchScreenState extends State<SearchScreen> {
             Navigator.pop(context);
           },
           tooltip: 'Back',
-          icon: Icon(CupertinoIcons.chevron_back),
+          icon: ImageIcon(AssetImage('assets/icons/back.png')),
         ),
         title: TextField(
           controller: _queryController,

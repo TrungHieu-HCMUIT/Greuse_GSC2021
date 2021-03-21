@@ -50,7 +50,7 @@ class _MyPostsScreenState extends State<MyPostsScreen> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         leading: IconButton(
-          icon: Icon(CupertinoIcons.chevron_left),
+          icon: ImageIcon(AssetImage('assets/icons/back.png')),
           tooltip: 'Back',
           onPressed: () {
             Navigator.pop(context);

@@ -47,14 +47,9 @@ class _AddScreenState extends State<AddScreen> {
                   ),
                 ),
                 SizedBox(height: 14.0),
-                CircleAvatar(
-                  backgroundColor: Theme.of(context).primaryColor,
-                  child: Icon(
-                    CupertinoIcons.checkmark,
-                    color: Colors.white,
-                    size: 36.0,
-                  ),
-                  radius: 36.0,
+                Image.asset(
+                  'assets/icons/checked.png',
+                  scale: 2.0,
                 ),
               ],
             ),
@@ -163,13 +158,19 @@ class _AddScreenState extends State<AddScreen> {
               children: [
                 MyButton(
                   onPressed: _chooseImage,
-                  icon: CupertinoIcons.photo,
+                  icon: ImageIcon(
+                    AssetImage('assets/icons/image.png'),
+                    color: Theme.of(context).primaryColor,
+                  ),
                   label: 'Choose image',
                 ),
                 SizedBox(height: 10.0),
                 MyButton(
                   onPressed: () {},
-                  icon: CupertinoIcons.location,
+                  icon: ImageIcon(
+                    AssetImage('assets/icons/location.png'),
+                    color: Theme.of(context).primaryColor,
+                  ),
                   label: 'Choose location',
                 ),
                 SizedBox(height: 25.0),
@@ -177,14 +178,20 @@ class _AddScreenState extends State<AddScreen> {
                   controller: _productNameController,
                   focusNode: _productNameFocusNode,
                   hintText: "Product's name",
-                  icon: CupertinoIcons.gift,
+                  icon: ImageIcon(
+                    AssetImage('assets/icons/box.png'),
+                    color: Theme.of(context).primaryColor,
+                  ),
                 ),
                 SizedBox(height: 10.0),
                 MyTextField(
                   controller: _descriptionController,
                   focusNode: _descriptionFocusNode,
                   hintText: "Description",
-                  icon: Icons.edit_outlined,
+                  icon: ImageIcon(
+                    AssetImage('assets/icons/edit.png'),
+                    color: Theme.of(context).primaryColor,
+                  ),
                 ),
                 SizedBox(height: 15.0),
                 Text(
@@ -246,7 +253,7 @@ class MyRadio extends StatelessWidget {
 class MyTextField extends StatelessWidget {
   final TextEditingController controller;
   final String hintText;
-  final IconData icon;
+  final Widget icon;
   final FocusNode focusNode;
   MyTextField({
     @required this.controller,
@@ -261,16 +268,12 @@ class MyTextField extends StatelessWidget {
       controller: controller,
       focusNode: focusNode,
       decoration: InputDecoration(
-        prefixIcon: Icon(
-          icon,
-          color: Theme.of(context).primaryColor,
-          size: 32.0,
-        ),
+        icon: icon,
         hintText: hintText ?? 'Enter your text',
         border: InputBorder.none,
       ),
       style: TextStyle(
-        fontSize: 20.0,
+        fontSize: 17.0,
         color: Color(0xFF868686),
       ),
     );
@@ -280,7 +283,7 @@ class MyTextField extends StatelessWidget {
 class MyButton extends StatelessWidget {
   final String label;
   final Function onPressed;
-  final IconData icon;
+  final Widget icon;
   MyButton({
     @required this.label,
     @required this.onPressed,
@@ -293,10 +296,7 @@ class MyButton extends StatelessWidget {
       minWidth: 175.0,
       child: RaisedButton.icon(
         onPressed: onPressed,
-        icon: Icon(
-          icon ?? Icons.warning,
-          color: Theme.of(context).primaryColor,
-        ),
+        icon: icon,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15.0),
         ),

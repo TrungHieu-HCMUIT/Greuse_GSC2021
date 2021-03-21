@@ -52,7 +52,7 @@ class _SavedPostsScreenState extends State<SavedPostsScreen> {
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
           tooltip: 'Back',
-          icon: Icon(CupertinoIcons.chevron_left),
+          icon: ImageIcon(AssetImage('assets/icons/back.png')),
         ),
         title: Text('Saved posts'),
       ),

@@ -52,9 +52,12 @@ class _NewsFeedScreenState extends State<NewsFeedScreen> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         centerTitle: true,
-        title: Text('Greuse'),
+        title: Image.asset(
+          'assets/icons/app_logo.png',
+          scale: 9.5,
+        ),
         leading: IconButton(
-          icon: Icon(CupertinoIcons.search),
+          icon: ImageIcon(AssetImage('assets/icons/search.png')),
           tooltip: 'Search',
           onPressed: () {
             Navigator.push(
@@ -101,7 +104,7 @@ class _NewsFeedScreenState extends State<NewsFeedScreen> {
         ),
         actions: [
           IconButton(
-            icon: Icon(CupertinoIcons.paperplane),
+            icon: ImageIcon(AssetImage('assets/icons/paper_air_plane_45d.png')),
             tooltip: 'Messages',
             onPressed: () {
               Navigator.pushNamed(context, MessagesScreen.id);
