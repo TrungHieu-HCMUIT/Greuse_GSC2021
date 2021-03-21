@@ -19,7 +19,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
   String _email;
   String _displayname;
   String _password;
-  String _confirmPassword;
 
   String _emailErrorText;
 
@@ -58,8 +57,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
     if (password != _passwordController.text) return 'Password does not match';
     return null;
   }
-
-  void _onConfirmPasswordSaved(String password) => _confirmPassword = password;
 
   void _signUp() async {
     if (_formKey.currentState.validate()) {
@@ -130,7 +127,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 SizedBox(height: 10.0),
                 TextFormField(
                   decoration: InputDecoration(
-                    labelText: 'displayname',
+                    labelText: 'Display name',
                   ),
                   style: TextStyle(
                     fontSize: 18.0,
@@ -162,10 +159,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                   obscureText: true,
                   validator: _confirmPasswordValidator,
-                  onSaved: _onConfirmPasswordSaved,
                 ),
                 SizedBox(height: 15.0),
-                RaisedButton(
+                ElevatedButton(
                   onPressed: _signUp,
                   child: Text('Sign up'),
                 ),

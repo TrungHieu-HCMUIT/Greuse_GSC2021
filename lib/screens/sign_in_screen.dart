@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:greuse/screens/home_screen.dart';
 import 'package:greuse/screens/sign_up_screen.dart';
 
 class SignInScreen extends StatefulWidget {
@@ -135,7 +134,7 @@ class _SignInScreenState extends State<SignInScreen> {
                   onChanged: _onPasswordSaved,
                 ),
                 SizedBox(height: 15.0),
-                RaisedButton(
+                ElevatedButton(
                   onPressed: _signIn,
                   child: Text('Sign in'),
                 ),
@@ -145,17 +144,23 @@ class _SignInScreenState extends State<SignInScreen> {
                   textAlign: TextAlign.center,
                 ),
                 SizedBox(height: 30.0),
-                RaisedButton(
+                ElevatedButton(
                   onPressed: _signInWithGoogle,
-                  color: Colors.red,
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.red,
+                    onPrimary: Colors.white,
+                  ),
                   child: Text(
                     'Sign in with Google',
                   ),
                 ),
                 SizedBox(height: 15.0),
-                RaisedButton(
+                ElevatedButton(
                   onPressed: _signUp,
-                  color: Colors.green,
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.green,
+                    onPrimary: Colors.white,
+                  ),
                   child: Text(
                     'Sign up',
                   ),

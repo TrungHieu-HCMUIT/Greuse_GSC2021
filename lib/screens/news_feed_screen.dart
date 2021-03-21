@@ -16,7 +16,7 @@ class NewsFeedScreen extends StatefulWidget {
 class _NewsFeedScreenState extends State<NewsFeedScreen> {
   final _newsFeedList = <NewsFeedCardVM>[];
 
-  Future _fetchNewsFeed() {
+  void _fetchNewsFeed() {
     // TODO: Fetch news feed from sever and add to _newsFeedList
     _newsFeedList.addAll([
       NewsFeedCardVM(

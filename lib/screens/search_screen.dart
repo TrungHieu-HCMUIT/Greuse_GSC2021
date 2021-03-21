@@ -17,7 +17,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
   final _searchResults = <NewsFeedCardVM>[];
 
-  Future _fetchResults() {
+  void _fetchResults() {
     // TODO: Fetch news feed from sever and add to _searchResult
     _searchResults.addAll([
       NewsFeedCardVM(
@@ -84,8 +84,9 @@ class _SearchScreenState extends State<SearchScreen> {
           onSubmitted: (_) async {
             _query = _queryController.text;
             _queryController.text = 'Result for "$_query"';
-            await _fetchResults();
-            setState(() {});
+            setState(() {
+              _fetchResults();
+            });
           },
         ),
         actions: [

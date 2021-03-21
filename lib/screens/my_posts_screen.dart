@@ -14,7 +14,7 @@ class MyPostsScreen extends StatefulWidget {
 class _MyPostsScreenState extends State<MyPostsScreen> {
   final _myPosts = <NewsFeedCardVM>[];
 
-  Future _fetchMyPosts() {
+  void _fetchMyPosts() {
     // TODO: Fetch news feed from sever and add to _newsFeedList
     _myPosts.addAll([
       NewsFeedCardVM(

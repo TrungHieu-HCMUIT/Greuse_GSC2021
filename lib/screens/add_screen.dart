@@ -294,15 +294,18 @@ class MyButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ButtonTheme(
       minWidth: 175.0,
-      child: RaisedButton.icon(
+      child: ElevatedButton.icon(
         onPressed: onPressed,
         icon: icon,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15.0),
+        style: ElevatedButton.styleFrom(
+          padding: EdgeInsets.all(10.0),
+          elevation: 4.0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15.0),
+          ),
+          primary: Colors.white,
+          onPrimary: Theme.of(context).primaryColor,
         ),
-        padding: EdgeInsets.all(10.0),
-        elevation: 4.0,
-        color: Colors.white,
         label: Text(
           label ?? 'null',
           style: TextStyle(

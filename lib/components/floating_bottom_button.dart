@@ -10,22 +10,22 @@ class FloatingBottomButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ButtonTheme(
-      minWidth: 136.0,
-      height: 40.0,
-      child: RaisedButton(
-        color: Theme.of(context).primaryColor,
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        primary: Theme.of(context).primaryColor,
+        onPrimary: Colors.white,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15.0),
         ),
-        onPressed: onPressed,
-        child: Text(
-          label ?? 'null',
-          style: TextStyle(
-            fontSize: 16.0,
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-          ),
+        minimumSize: Size(136, 40),
+      ),
+      onPressed: onPressed,
+      child: Text(
+        label ?? 'null',
+        style: TextStyle(
+          fontSize: 16.0,
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
         ),
       ),
     );

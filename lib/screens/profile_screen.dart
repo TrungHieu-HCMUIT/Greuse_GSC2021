@@ -6,7 +6,6 @@ import 'package:greuse/components/floating_bottom_button.dart';
 import 'package:greuse/screens/exchanging_locations_screen.dart';
 import 'package:greuse/screens/my_posts_screen.dart';
 import 'package:greuse/screens/saved_posts_screen.dart';
-import 'package:greuse/screens/sign_in_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   static const id = 'profile_screen';
