@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:greuse/screens/add_screen.dart';
 import 'package:greuse/screens/news_feed_screen.dart';
+import 'package:greuse/screens/points_screen.dart';
 import 'package:greuse/screens/profile_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -21,10 +22,12 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           NewsFeedScreen(),
           AddScreen(),
+          PointsScreen(),
           ProfileScreen(),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
         currentIndex: _currentIndex,
         onTap: (idx) {
           setState(() {
@@ -39,6 +42,10 @@ class _HomeScreenState extends State<HomeScreen> {
           BottomNavigationBarItem(
             icon: ImageIcon(AssetImage('assets/icons/plus.png')),
             label: 'Add',
+          ),
+          BottomNavigationBarItem(
+            icon: ImageIcon(AssetImage('assets/icons/gift.png')),
+            label: 'Points',
           ),
           BottomNavigationBarItem(
             icon: ImageIcon(AssetImage('assets/icons/profile.png')),

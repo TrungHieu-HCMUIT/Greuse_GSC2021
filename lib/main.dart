@@ -7,6 +7,7 @@ import 'package:greuse/screens/home_screen.dart';
 import 'package:greuse/screens/messages_screen.dart';
 import 'package:greuse/screens/my_posts_screen.dart';
 import 'package:greuse/screens/news_feed_screen.dart';
+import 'package:greuse/screens/points_screen.dart';
 import 'package:greuse/screens/profile_screen.dart';
 import 'package:greuse/screens/saved_posts_screen.dart';
 import 'package:greuse/screens/sign_in_screen.dart';
@@ -31,6 +32,7 @@ class MyApp extends StatelessWidget {
     SignInScreen.id: (_) => SignInScreen(),
     SignUpScreen.id: (_) => SignUpScreen(),
     AuthScreen.id: (_) => AuthScreen(),
+    PointsScreen.id: (_) => PointsScreen(),
   };
 
   @override
