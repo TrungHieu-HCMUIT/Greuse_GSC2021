@@ -34,10 +34,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
       final user = await _firestore.collection('users').doc(userID).get();
       if (user != null) {
         // TODO: Get current user from firestore
-        print(user.data());
-        avatarURL = user.data()['photoUrl'];
-        username = user.data()['name'];
-        userPoints = user.data()['points'];
+        // print('here ------------------');
+        // print(userID);
+        avatarURL = await user.data()['photoUrl'];
+        username = await user.data()['name'];
+        userPoints = await user.data()['points'];
       }
     } catch (e) {
       print(e);

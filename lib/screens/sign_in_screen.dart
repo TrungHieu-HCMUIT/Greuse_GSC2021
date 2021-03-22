@@ -2,6 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:greuse/screens/sign_up_screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+final _firestore = FirebaseFirestore.instance;
 
 class SignInScreen extends StatefulWidget {
   static const id = 'sign_in_screen';
@@ -77,6 +80,29 @@ class _SignInScreenState extends State<SignInScreen> {
     return null;
   }
 
+  void getUserProfileFirestore() async {
+    // TODO: Update user profile when sign in if not exits
+    final signInUser = _auth.currentUser;
+
+    if (signInUser != null) {
+      final userRef = _firestore.collection('users').doc(signInUser.uid);
+
+      // await userRef.get().then((value) => {
+      //       if (!value.exists)
+      //         {
+      userRef.set({
+        'email': signInUser.email,
+        'uid': signInUser.uid,
+        'name': signInUser.displayName,
+        'isEmailVerified': signInUser.emailVerified,
+        'photoUrl': signInUser.photoURL,
+        'points': 0,
+        //   })
+        // }
+      });
+    }
+  }
+
   void _signInWithGoogle() async {
     try {
       final googleUser = await _googleSignIn.signIn();
@@ -86,6 +112,7 @@ class _SignInScreenState extends State<SignInScreen> {
         idToken: googleAuth.idToken,
       );
       await _auth.signInWithCredential(credential);
+      getUserProfileFirestore();
     } catch (e) {
       print(e);
     }
