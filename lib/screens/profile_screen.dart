@@ -30,12 +30,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   void getCurrentUser() async {
     try {
-      final userID = _auth.currentUser.uid;
-      final user = await _firestore.collection('users').doc(userID).get();
-      if (user != null) {
+      final signInUser = _auth.currentUser;
+      final userRef = _firestore.collection('users').doc(signInUser.uid);
+      final user = await userRef.get();
+
+      if (user.data() == null) {
         // TODO: Get current user from firestore
-        // print('here ------------------');
-        // print(userID);
+        await userRef.set({
+          'email': signInUser.email,
+          'uid': signInUser.uid,
+          'name': signInUser.displayName,
+          'isEmailVerified': signInUser.emailVerified,
+          'photoUrl': signInUser.photoURL,
+          'points': 0,
+        }, SetOptions(merge: true));
+
+        // Set profile from Authentication
+        avatarURL = signInUser.photoURL;
+        username = signInUser.displayName;
+        userPoints = 0;
+      } else {
         avatarURL = await user.data()['photoUrl'];
         username = await user.data()['name'];
         userPoints = await user.data()['points'];
