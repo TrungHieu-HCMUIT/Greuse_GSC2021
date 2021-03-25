@@ -166,23 +166,11 @@ class _NewsFeedScreenState extends State<NewsFeedScreen> {
           ),
         ],
       ),
-      body: RefreshIndicator(
-        backgroundColor: Colors.white,
-        color: Theme.of(context).primaryColor,
-        onRefresh: _fetchNewsFeed,
-        child: ListView.separated(
-          physics: BouncingScrollPhysics(),
-          padding: EdgeInsets.symmetric(
-            vertical: 26.0,
-            horizontal: 36.0,
-          ),
-          itemCount: _newsFeedList.length,
-          itemBuilder: (context, index) {
-            return NewsFeedCard(_newsFeedList.elementAt(index));
-          },
-          separatorBuilder: (context, index) {
-            return SizedBox(height: 25.0);
-          },
+      body: ListView.separated(
+        physics: BouncingScrollPhysics(),
+        padding: EdgeInsets.symmetric(
+          vertical: 26.0,
+          horizontal: 36.0,
         ),
         itemCount: _newsFeedList.length,
         itemBuilder: (context, index) {
