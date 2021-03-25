@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -12,6 +14,8 @@ class AddScreen extends StatefulWidget {
 }
 
 class _AddScreenState extends State<AddScreen> {
+  final _firestore = FirebaseFirestore.instance;
+  final _auth = FirebaseAuth.instance;
   final _weightController = TextEditingController();
   final _productNameController = TextEditingController();
   final _descriptionController = TextEditingController();
@@ -140,15 +144,36 @@ class _AddScreenState extends State<AddScreen> {
     }
   }
 
+  Future<void> _post() async {
+    final prodName = _productNameController.text.trim();
+    final description = _descriptionController.text.trim();
+    final weight = double.parse(_weightController.text.trim());
+    final user = await _auth.currentUser;
+    if (user == null) return;
+    final dbUser = await _firestore.collection('users').doc(user.uid);
+    final res = await _firestore.collection("posts").add({
+      'image':
+          'https://thunggiay.com/wp-content/uploads/2018/10/Mua-thung-giay-o-dau-uy-tin-va-chat-luong1.jpg',
+      'material': _material,
+      'name': prodName,
+      'location': 'TP HCM',
+      'description': description,
+      'isSaved': false,
+      'weight': weight,
+      'user': dbUser,
+    });
+    if (res != null) {
+      _showSucceedDialog(context);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingBottomButton(
         label: 'Post',
-        onPressed: () {
-          _showSucceedDialog(context);
-        },
+        onPressed: _post,
       ),
       body: SafeArea(
         child: Padding(
