@@ -20,12 +20,12 @@ class Post {
 
   Map<String, dynamic> toJson() {
     return {
-      id: id,
-      image: image,
-      name: name,
-      material: material,
-      location: location,
-      description: description,
+      'id': id,
+      'image': image,
+      'name': name,
+      'material': material,
+      'location': location,
+      'description': description,
       'isSaved': isSaved,
     };
   }

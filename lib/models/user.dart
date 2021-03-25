@@ -14,10 +14,10 @@ class User {
 
   Map<String, dynamic> toJson() {
     return {
-      id: id,
-      displayname: displayname,
-      email: email,
-      avatarURL: avatarURL,
+      'id': id,
+      'displayname': displayname,
+      'email': email,
+      'avatarURL': avatarURL,
     };
   }
 

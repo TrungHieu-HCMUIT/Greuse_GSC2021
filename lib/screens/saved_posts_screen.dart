@@ -64,7 +64,7 @@ class _SavedPostsScreenState extends State<SavedPostsScreen> {
         ),
         itemCount: _savedPosts.length,
         itemBuilder: (context, index) {
-          return NewsFeedCard(_savedPosts.elementAt(index));
+          return NewsFeedCard(viewModel: _savedPosts.elementAt(index));
         },
         separatorBuilder: (context, index) {
           return SizedBox(height: 25.0);

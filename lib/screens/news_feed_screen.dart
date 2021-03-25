@@ -32,6 +32,22 @@ class _NewsFeedScreenState extends State<NewsFeedScreen> {
     setState(() {});
   }
 
+  Future<void> _toggleBookmark(int pos, NewsFeedCardVM vm) async {
+    await _firestore.collection("posts").doc(vm.post.id).update({
+      'isSaved': !vm.post.isSaved,
+    });
+    setState(() {
+      print(vm.post.toJson());
+      _newsFeedList[pos] = NewsFeedCardVM(
+        post: Post.fromJson({
+          ...vm.post.toJson(),
+          'isSaved': !vm.post.isSaved,
+        }),
+        user: vm.user,
+      );
+    });
+  }
+
   @override
   void initState() {
     _fetchNewsFeed();
@@ -112,7 +128,11 @@ class _NewsFeedScreenState extends State<NewsFeedScreen> {
         ),
         itemCount: _newsFeedList.length,
         itemBuilder: (context, index) {
-          return NewsFeedCard(_newsFeedList.elementAt(index));
+          final e = _newsFeedList.elementAt(index);
+          return NewsFeedCard(
+            viewModel: e,
+            toggleBookmark: () => _toggleBookmark(index, e),
+          );
         },
         separatorBuilder: (context, index) {
           return SizedBox(height: 25.0);

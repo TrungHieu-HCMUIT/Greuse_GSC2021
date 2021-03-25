@@ -148,9 +148,9 @@ class _AddScreenState extends State<AddScreen> {
     final prodName = _productNameController.text.trim();
     final description = _descriptionController.text.trim();
     final weight = double.parse(_weightController.text.trim());
-    final user = await _auth.currentUser;
+    final user = _auth.currentUser;
     if (user == null) return;
-    final dbUser = await _firestore.collection('users').doc(user.uid);
+    final dbUser = _firestore.collection('users').doc(user.uid);
     final res = await _firestore.collection("posts").add({
       'image':
           'https://thunggiay.com/wp-content/uploads/2018/10/Mua-thung-giay-o-dau-uy-tin-va-chat-luong1.jpg',
@@ -163,6 +163,7 @@ class _AddScreenState extends State<AddScreen> {
       'user': dbUser,
     });
     if (res != null) {
+      await res.update({'id': res.id});
       _showSucceedDialog(context);
     }
   }
