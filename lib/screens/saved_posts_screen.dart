@@ -1,10 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:greuse/ViewModels/news_feed_card_vm.dart';
 import 'package:greuse/components/news_feed_card.dart';
 import 'package:greuse/models/post.dart';
-import 'package:greuse/models/user.dart';
+import 'package:greuse/models/user.dart' as us;
 
 class SavedPostsScreen extends StatefulWidget {
   static const id = 'saved_posts_screen';
@@ -14,30 +15,52 @@ class SavedPostsScreen extends StatefulWidget {
 
 class _SavedPostsScreenState extends State<SavedPostsScreen> {
   final _firestore = FirebaseFirestore.instance;
+  final _auth = FirebaseAuth.instance;
   var _savedPosts = <NewsFeedCardVM>[];
 
   Future<void> _fetchSavedPosts() async {
     _savedPosts.clear();
+    final userId = _auth.currentUser.uid;
     final posts = (await _firestore
-            .collection("posts")
-            .where('isSaved', isEqualTo: true)
+            .collection("users")
+            .doc(userId)
+            .collection("savedPosts")
             .get())
         .docs;
     for (int i = 0; i < posts.length; i++) {
-      final postData = posts[i].data();
+      final postData = (await posts[i].data()['post'].get()).data();
       final userData = (await postData['user'].get()).data();
       _savedPosts.add(NewsFeedCardVM(
-        user: User.fromJson(userData),
-        post: Post.fromJson(postData),
+        user: us.User.fromJson(userData),
+        post: Post.fromJson({...postData, 'isSaved': true}),
       ));
     }
     setState(() {});
   }
 
   Future<void> _toggleBookmark(int pos, NewsFeedCardVM vm) async {
-    await _firestore.collection("posts").doc(vm.post.id).update({
-      'isSaved': !vm.post.isSaved,
-    });
+    final userId = _auth.currentUser.uid;
+    print(userId);
+    final snap = await _firestore
+        .collection("users")
+        .doc(userId)
+        .collection("savedPosts")
+        .where("id", isEqualTo: vm.post.id)
+        .get();
+    if (snap.size == 0) {
+      await _firestore
+          .collection("users")
+          .doc(userId)
+          .collection("savedPosts")
+          .add({
+        'id': vm.post.id,
+        'post': _firestore.doc('posts/${vm.post.id}'),
+      });
+    } else {
+      await _firestore
+          .doc('users/$userId/savedPosts/${snap.docs[0].id}')
+          .delete();
+    }
     setState(() {
       print(vm.post.toJson());
       _savedPosts[pos] = NewsFeedCardVM(
