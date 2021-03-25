@@ -92,17 +92,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   backgroundColor: Colors.white,
-      //   title: Text('Sign up'),
-      //   leading: IconButton(
-      //     onPressed: () {
-      //       Navigator.pop(context);
-      //     },
-      //     tooltip: 'Back',
-      //     icon: Icon(CupertinoIcons.chevron_left),
-      //   ),
-      // ),
       body: Column(
         children: [
           Expanded(

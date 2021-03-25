@@ -1,9 +1,14 @@
+import 'dart:io';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:greuse/components/floating_bottom_button.dart';
+import 'package:greuse/models/post.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class AddScreen extends StatefulWidget {
   static const id = 'add_screen';
@@ -12,12 +17,14 @@ class AddScreen extends StatefulWidget {
 }
 
 class _AddScreenState extends State<AddScreen> {
+  final _firestore = FirebaseFirestore.instance;
   final _weightController = TextEditingController();
   final _productNameController = TextEditingController();
   final _descriptionController = TextEditingController();
   final _weightFocusNode = FocusNode();
   final _productNameFocusNode = FocusNode();
   final _descriptionFocusNode = FocusNode();
+  final _storage = FirebaseStorage.instance;
   var _materials = [
     'Material 1',
     'Material 2',
@@ -31,6 +38,12 @@ class _AddScreenState extends State<AddScreen> {
     'others...',
   ];
   String _material;
+  String _productNameErrorText,
+      _descriptionErrorText,
+      _weightErrorText,
+      _materialErrorText;
+  var _pickedImagePaths = <String>[];
+  var _pickedAssetImages = <Asset>[];
 
   void _showSucceedDialog(BuildContext context) {
     showDialog(
@@ -132,11 +145,77 @@ class _AddScreenState extends State<AddScreen> {
           source: imageSource,
           imageQuality: 85,
         );
-        print(pickedImage);
+        _pickedImagePaths.add(pickedImage.path);
       } else {
         final pickedImages = await MultiImagePicker.pickImages(maxImages: 5);
+        _pickedAssetImages = pickedImages;
       }
       // TODO: Upload to Cloud Storage
+    }
+  }
+
+  Future<void> uploadFile(String filePath) async {
+    File file = File(filePath);
+
+    try {
+      await _storage.ref('uploads/file-to-upload.png').putFile(file);
+    } on FirebaseException catch (e) {
+      // e.g, e.code == 'canceled'
+    }
+  }
+
+  bool _isFormValid() {
+    bool isValid = true;
+    final productName = _productNameController.text.trim();
+    final description = _descriptionController.text.trim();
+    final weight = _weightController.text.trim();
+    setState(() {
+      _productNameErrorText = null;
+      _descriptionErrorText = null;
+      _weightErrorText = null;
+      _materialErrorText = null;
+
+      if (productName.isEmpty) {
+        isValid = false;
+        _productNameErrorText = "Please enter product's name";
+      }
+      if (description.isEmpty) {
+        isValid = false;
+        _descriptionErrorText = "Please enter description";
+      }
+      if (weight.isEmpty) {
+        isValid = false;
+        _weightErrorText = "Please enter weight";
+      }
+      if (_material == null) {
+        isValid = false;
+        _materialErrorText = "Please choose material";
+      }
+    });
+    return isValid;
+  }
+
+  Future<void> _post() async {
+    if (_isFormValid()) {
+      // await uploadFile(_pickedAssetImages[0].identifier);
+      // await _storage
+      //     .ref('uploads/file-to-upload-1.png')
+      //     .putData(_pickedAssetImages[0].);
+      final res = await _firestore.collection("posts").add(
+            Post(
+              image:
+                  'https://thunggiay.com/wp-content/uploads/2018/10/Mua-thung-giay-o-dau-uy-tin-va-chat-luong1.jpg',
+              material: _material,
+              name: _productNameController.text.trim(),
+              location: "TP HCM",
+              description: _descriptionController.text,
+              weight: double.parse(_weightController.text.trim()),
+            ).toJson(),
+          );
+      if (res != null) {
+        await res.update({'id': res.id});
+        _showSucceedDialog(context);
+      }
     }
   }
 
@@ -147,7 +226,7 @@ class _AddScreenState extends State<AddScreen> {
       floatingActionButton: FloatingBottomButton(
         label: 'Post',
         onPressed: () {
-          _showSucceedDialog(context);
+          _post();
         },
       ),
       body: SafeArea(
@@ -181,6 +260,7 @@ class _AddScreenState extends State<AddScreen> {
                   controller: _productNameController,
                   focusNode: _productNameFocusNode,
                   hintText: "Product's name",
+                  errorText: _productNameErrorText,
                   icon: ImageIcon(
                     AssetImage('assets/icons/box.png'),
                     color: Theme.of(context).primaryColor,
@@ -191,6 +271,7 @@ class _AddScreenState extends State<AddScreen> {
                   controller: _descriptionController,
                   focusNode: _descriptionFocusNode,
                   hintText: "Description",
+                  errorText: _descriptionErrorText,
                   icon: ImageIcon(
                     AssetImage('assets/icons/edit.png'),
                     color: Theme.of(context).primaryColor,
@@ -205,6 +286,14 @@ class _AddScreenState extends State<AddScreen> {
                     fontWeight: FontWeight.w500,
                   ),
                 ),
+                _materialErrorText == null
+                    ? Container()
+                    : Text(
+                        _materialErrorText ?? "",
+                        style: Theme.of(context).textTheme.bodyText2.copyWith(
+                              color: Theme.of(context).errorColor,
+                            ),
+                      ),
                 Wrap(
                   children: _buildRadioList(),
                 ),
@@ -214,6 +303,7 @@ class _AddScreenState extends State<AddScreen> {
                   focusNode: _weightFocusNode,
                   hintText: "Weight",
                   keyboardType: TextInputType.number,
+                  errorText: _weightErrorText,
                   icon: ImageIcon(
                     AssetImage('assets/icons/weight.png'),
                     color: Theme.of(context).primaryColor,
@@ -289,12 +379,14 @@ class MyTextField extends StatelessWidget {
   final Widget icon;
   final FocusNode focusNode;
   final TextInputType keyboardType;
+  final String errorText;
   MyTextField({
     @required this.controller,
     @required this.hintText,
     @required this.icon,
     this.keyboardType,
     this.focusNode,
+    this.errorText,
   });
 
   @override
@@ -307,6 +399,7 @@ class MyTextField extends StatelessWidget {
         icon: icon,
         hintText: hintText ?? 'Enter your text',
         border: InputBorder.none,
+        errorText: errorText,
       ),
       style: TextStyle(
         fontSize: 17.0,

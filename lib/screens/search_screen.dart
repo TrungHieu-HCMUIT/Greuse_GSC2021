@@ -36,6 +36,7 @@ class _SearchScreenState extends State<SearchScreen> {
           location: 'TP HCM',
           description: 'Can be reused',
           isSaved: true,
+          weight: 10,
         ),
       ),
     ]);

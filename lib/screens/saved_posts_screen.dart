@@ -33,6 +33,7 @@ class _SavedPostsScreenState extends State<SavedPostsScreen> {
           location: 'TP HCM',
           description: 'Can be reused',
           isSaved: true,
+          weight: 10,
         ),
       ),
     ]);

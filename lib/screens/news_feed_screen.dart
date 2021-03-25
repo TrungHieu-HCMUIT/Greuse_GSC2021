@@ -35,6 +35,7 @@ class _NewsFeedScreenState extends State<NewsFeedScreen> {
           location: 'TP HCM',
           description: 'Can be reused',
           isSaved: true,
+          weight: 10,
         ),
       ),
     ]);
