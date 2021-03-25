@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:greuse/ViewModels/news_feed_card_vm.dart';
@@ -12,30 +13,41 @@ class SavedPostsScreen extends StatefulWidget {
 }
 
 class _SavedPostsScreenState extends State<SavedPostsScreen> {
-  final _savedPosts = <NewsFeedCardVM>[];
+  final _firestore = FirebaseFirestore.instance;
+  var _savedPosts = <NewsFeedCardVM>[];
 
-  Future _fetchSavedPosts() {
-    // TODO: Fetch news feed from sever and add to _savedPosts
-    _savedPosts.addAll([
-      NewsFeedCardVM(
-        user: User(
-          id: 'userid',
-          displayname: 'khiemle',
-          avatarURL: 'https://wallpapercave.com/wp/wp7999906.jpg',
-          email: 'user@email.com',
-        ),
-        post: Post(
-          id: 'postid',
-          image:
-              'https://thunggiay.com/wp-content/uploads/2018/10/Mua-thung-giay-o-dau-uy-tin-va-chat-luong1.jpg',
-          material: 'Paper',
-          name: 'Carton Box',
-          location: 'TP HCM',
-          description: 'Can be reused',
-          isSaved: true,
-        ),
-      ),
-    ]);
+  Future<void> _fetchSavedPosts() async {
+    _savedPosts.clear();
+    final posts = (await _firestore
+            .collection("posts")
+            .where('isSaved', isEqualTo: true)
+            .get())
+        .docs;
+    for (int i = 0; i < posts.length; i++) {
+      final postData = posts[i].data();
+      final userData = (await postData['user'].get()).data();
+      _savedPosts.add(NewsFeedCardVM(
+        user: User.fromJson(userData),
+        post: Post.fromJson(postData),
+      ));
+    }
+    setState(() {});
+  }
+
+  Future<void> _toggleBookmark(int pos, NewsFeedCardVM vm) async {
+    await _firestore.collection("posts").doc(vm.post.id).update({
+      'isSaved': !vm.post.isSaved,
+    });
+    setState(() {
+      print(vm.post.toJson());
+      _savedPosts[pos] = NewsFeedCardVM(
+        post: Post.fromJson({
+          ...vm.post.toJson(),
+          'isSaved': !vm.post.isSaved,
+        }),
+        user: vm.user,
+      );
+    });
   }
 
   @override
@@ -64,7 +76,11 @@ class _SavedPostsScreenState extends State<SavedPostsScreen> {
         ),
         itemCount: _savedPosts.length,
         itemBuilder: (context, index) {
-          return NewsFeedCard(viewModel: _savedPosts.elementAt(index));
+          final e = _savedPosts.elementAt(index);
+          return NewsFeedCard(
+            viewModel: e,
+            toggleBookmark: () => _toggleBookmark(index, e),
+          );
         },
         separatorBuilder: (context, index) {
           return SizedBox(height: 25.0);
