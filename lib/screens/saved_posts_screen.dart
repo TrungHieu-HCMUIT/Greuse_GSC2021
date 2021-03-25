@@ -29,6 +29,15 @@ class _SavedPostsScreenState extends State<SavedPostsScreen> {
         .docs;
     for (int i = 0; i < posts.length; i++) {
       final postData = (await posts[i].data()['post'].get()).data();
+      if (postData == null) {
+        await _firestore
+            .collection("users")
+            .doc(userId)
+            .collection("savedPosts")
+            .doc(posts[i].id)
+            .delete();
+        continue;
+      }
       final userData = (await postData['user'].get()).data();
       _savedPosts.add(NewsFeedCardVM(
         user: us.User.fromJson(userData),
