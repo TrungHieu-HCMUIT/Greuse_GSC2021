@@ -1,11 +1,14 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:greuse/ViewModels/news_feed_card_vm.dart';
 import 'package:greuse/components/floating_bottom_button.dart';
 import 'package:greuse/models/post.dart';
+import 'package:greuse/models/user.dart' as MUser;
 import 'package:image_picker/image_picker.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -25,6 +28,7 @@ class _AddScreenState extends State<AddScreen> {
   final _productNameFocusNode = FocusNode();
   final _descriptionFocusNode = FocusNode();
   final _storage = FirebaseStorage.instance;
+  final _auth = FirebaseAuth.instance;
   var _materials = [
     'Material 1',
     'Material 2',
@@ -201,16 +205,30 @@ class _AddScreenState extends State<AddScreen> {
       // await _storage
       //     .ref('uploads/file-to-upload-1.png')
       //     .putData(_pickedAssetImages[0].);
+
+      final currentUser = _auth.currentUser;
+      if (currentUser == null) return;
+
+      final user = MUser.User(
+        displayname: currentUser.displayName,
+        email: currentUser.email,
+        avatarURL: 'https://wallpapercave.com/wp/wp7999906.jpg',
+      );
+
+      final post = Post(
+        image:
+            'https://thunggiay.com/wp-content/uploads/2018/10/Mua-thung-giay-o-dau-uy-tin-va-chat-luong1.jpg',
+        material: _material,
+        name: _productNameController.text.trim(),
+        location: "TP HCM",
+        description: _descriptionController.text,
+        weight: double.parse(_weightController.text.trim()),
+      );
+
+      final viewModel = NewsFeedCardVM(user: user, post: post);
+
       final res = await _firestore.collection("posts").add(
-            Post(
-              image:
-                  'https://thunggiay.com/wp-content/uploads/2018/10/Mua-thung-giay-o-dau-uy-tin-va-chat-luong1.jpg',
-              material: _material,
-              name: _productNameController.text.trim(),
-              location: "TP HCM",
-              description: _descriptionController.text,
-              weight: double.parse(_weightController.text.trim()),
-            ).toJson(),
+            viewModel.toJson(),
           );
       if (res != null) {
         await res.update({'id': res.id});

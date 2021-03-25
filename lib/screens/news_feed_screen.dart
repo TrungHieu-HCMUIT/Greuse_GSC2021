@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:greuse/ViewModels/news_feed_card_vm.dart';
@@ -14,31 +15,17 @@ class NewsFeedScreen extends StatefulWidget {
 }
 
 class _NewsFeedScreenState extends State<NewsFeedScreen> {
-  final _newsFeedList = <NewsFeedCardVM>[];
+  final _firestore = FirebaseFirestore.instance;
+  var _newsFeedList = <NewsFeedCardVM>[];
 
-  void _fetchNewsFeed() {
-    // TODO: Fetch news feed from sever and add to _newsFeedList
-    _newsFeedList.addAll([
-      NewsFeedCardVM(
-        user: User(
-          id: 'userid',
-          displayname: 'khiemle',
-          avatarURL: 'https://wallpapercave.com/wp/wp7999906.jpg',
-          email: 'user@email.com',
-        ),
-        post: Post(
-          id: 'postid',
-          image:
-              'https://thunggiay.com/wp-content/uploads/2018/10/Mua-thung-giay-o-dau-uy-tin-va-chat-luong1.jpg',
-          material: 'Paper',
-          name: 'Carton Box',
-          location: 'TP HCM',
-          description: 'Can be reused',
-          isSaved: true,
-          weight: 10,
-        ),
-      ),
-    ]);
+  Future<void> _fetchNewsFeed() async {
+    final posts = await _firestore.collection("posts").get();
+    if (posts.size != 0) {
+      _newsFeedList = posts.docs
+          .map<NewsFeedCardVM>((e) => NewsFeedCardVM.fromJson(e.data()))
+          .toList();
+      setState(() {});
+    }
   }
 
   @override
@@ -113,19 +100,24 @@ class _NewsFeedScreenState extends State<NewsFeedScreen> {
           ),
         ],
       ),
-      body: ListView.separated(
-        physics: BouncingScrollPhysics(),
-        padding: EdgeInsets.symmetric(
-          vertical: 26.0,
-          horizontal: 36.0,
+      body: RefreshIndicator(
+        backgroundColor: Colors.white,
+        color: Theme.of(context).primaryColor,
+        onRefresh: _fetchNewsFeed,
+        child: ListView.separated(
+          physics: BouncingScrollPhysics(),
+          padding: EdgeInsets.symmetric(
+            vertical: 26.0,
+            horizontal: 36.0,
+          ),
+          itemCount: _newsFeedList.length,
+          itemBuilder: (context, index) {
+            return NewsFeedCard(_newsFeedList.elementAt(index));
+          },
+          separatorBuilder: (context, index) {
+            return SizedBox(height: 25.0);
+          },
         ),
-        itemCount: _newsFeedList.length,
-        itemBuilder: (context, index) {
-          return NewsFeedCard(_newsFeedList.elementAt(index));
-        },
-        separatorBuilder: (context, index) {
-          return SizedBox(height: 25.0);
-        },
       ),
     );
   }
