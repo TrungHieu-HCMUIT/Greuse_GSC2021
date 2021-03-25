@@ -1,9 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:greuse/ViewModels/news_feed_card_vm.dart';
 import 'package:greuse/components/my_posts_card.dart';
 import 'package:greuse/models/post.dart';
-import 'package:greuse/models/user.dart';
+import 'package:greuse/models/user.dart' as us;
 
 class MyPostsScreen extends StatefulWidget {
   static const id = 'my_posts_screen';
@@ -12,30 +14,39 @@ class MyPostsScreen extends StatefulWidget {
 }
 
 class _MyPostsScreenState extends State<MyPostsScreen> {
+  final _auth = FirebaseAuth.instance;
+  final _firestore = FirebaseFirestore.instance;
   final _myPosts = <NewsFeedCardVM>[];
 
-  void _fetchMyPosts() {
-    // TODO: Fetch news feed from sever and add to _newsFeedList
-    _myPosts.addAll([
-      NewsFeedCardVM(
-        user: User(
-          id: 'userid',
-          displayname: 'khiemle',
-          avatarURL: 'https://wallpapercave.com/wp/wp7999906.jpg',
-          email: 'user@email.com',
-        ),
-        post: Post(
-          id: 'postid',
-          image:
-              'https://thunggiay.com/wp-content/uploads/2018/10/Mua-thung-giay-o-dau-uy-tin-va-chat-luong1.jpg',
-          material: 'Paper',
-          name: 'Carton Box',
-          location: 'TP HCM',
-          description: 'Can be reused',
-          isSaved: true,
-        ),
-      ),
-    ]);
+  Future<void> _fetchMyPosts() async {
+    _myPosts.clear();
+    final user = _firestore.collection('users').doc(_auth.currentUser.uid);
+    final posts = (await _firestore
+            .collection('posts')
+            .where('user', isEqualTo: user)
+            .get())
+        .docs;
+    for (int i = 0; i < posts.length; i++) {
+      final userId = _auth.currentUser.uid;
+      final postData = posts[i].data();
+      final userData = (await postData['user'].get()).data();
+      final isSaved = (await _firestore
+                  .collection('users')
+                  .doc(userId)
+                  .collection("savedPosts")
+                  .where('id', isEqualTo: postData['id'])
+                  .get())
+              .size ==
+          1;
+      _myPosts.add(NewsFeedCardVM(
+        user: us.User.fromJson(userData),
+        post: Post.fromJson({
+          ...postData,
+          'isSaved': isSaved,
+        }),
+      ));
+    }
+    setState(() {});
   }
 
   @override
