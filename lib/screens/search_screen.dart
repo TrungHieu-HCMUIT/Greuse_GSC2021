@@ -111,7 +111,7 @@ class _SearchScreenState extends State<SearchScreen> {
               ),
               itemCount: _searchResults.length,
               itemBuilder: (context, index) {
-                return NewsFeedCard(_searchResults.elementAt(index));
+                return NewsFeedCard(viewModel: _searchResults.elementAt(index));
               },
               separatorBuilder: (context, index) {
                 return SizedBox(height: 25.0);

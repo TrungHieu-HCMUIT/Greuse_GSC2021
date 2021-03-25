@@ -4,7 +4,8 @@ import 'package:greuse/ViewModels/news_feed_card_vm.dart';
 
 class NewsFeedCard extends StatelessWidget {
   final NewsFeedCardVM viewModel;
-  NewsFeedCard(this.viewModel);
+  final Function toggleBookmark;
+  NewsFeedCard({this.viewModel, this.toggleBookmark});
 
   @override
   Widget build(BuildContext context) {
@@ -56,8 +57,9 @@ class NewsFeedCard extends StatelessWidget {
                           children: [
                             CircleAvatar(
                               backgroundColor: Theme.of(context).primaryColor,
-                              backgroundImage:
-                                  NetworkImage(viewModel.user.avatarURL),
+                              backgroundImage: NetworkImage(viewModel
+                                      .user.avatarURL ??
+                                  'https://st.quantrimang.com/photos/image/2017/04/08/anh-dai-dien-FB-200.jpg'),
                               radius: 24.0,
                             ),
                             SizedBox(width: 8.0),
@@ -188,7 +190,7 @@ class NewsFeedCard extends StatelessWidget {
                       borderRadius: BorderRadius.circular(30.0),
                       child: Material(
                         child: InkWell(
-                          onTap: () {},
+                          onTap: toggleBookmark,
                           child: Padding(
                             padding: EdgeInsets.all(8.0),
                             child: ImageIcon(
