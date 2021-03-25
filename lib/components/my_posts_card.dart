@@ -4,7 +4,8 @@ import 'package:greuse/ViewModels/news_feed_card_vm.dart';
 
 class MyPostsCard extends StatelessWidget {
   final NewsFeedCardVM viewModel;
-  MyPostsCard(this.viewModel);
+  final Function delete;
+  MyPostsCard({this.viewModel, this.delete});
 
   @override
   Widget build(BuildContext context) {
@@ -113,7 +114,7 @@ class MyPostsCard extends StatelessWidget {
                                 color: Colors.black.withAlpha(150),
                                 size: 34.0,
                               ),
-                              onPressed: () {},
+                              onPressed: delete,
                             ),
                           ),
                         ),

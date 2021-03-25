@@ -49,6 +49,12 @@ class _MyPostsScreenState extends State<MyPostsScreen> {
     setState(() {});
   }
 
+  Future<void> _deletePosts(int pos, String postId) async {
+    await _firestore.collection('posts').doc(postId).delete();
+    _myPosts.removeAt(pos);
+    setState(() {});
+  }
+
   @override
   void initState() {
     _fetchMyPosts();
@@ -77,7 +83,13 @@ class _MyPostsScreenState extends State<MyPostsScreen> {
         ),
         itemCount: _myPosts.length,
         itemBuilder: (context, index) {
-          return MyPostsCard(_myPosts.elementAt(index));
+          final e = _myPosts.elementAt(index);
+          return MyPostsCard(
+              viewModel: e,
+              delete: () => _deletePosts(
+                    index,
+                    e.post.id,
+                  ));
         },
         separatorBuilder: (context, index) {
           return SizedBox(height: 25.0);
