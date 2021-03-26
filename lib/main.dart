@@ -4,6 +4,7 @@ import 'package:greuse/screens/add_screen.dart';
 import 'package:greuse/screens/auth_screen.dart';
 import 'package:greuse/screens/chat_screen.dart';
 import 'package:greuse/screens/choose_location_screen.dart';
+import 'package:greuse/screens/comment_screen.dart';
 import 'package:greuse/screens/home_screen.dart';
 import 'package:greuse/screens/messages_screen.dart';
 import 'package:greuse/screens/my_posts_screen.dart';
@@ -35,6 +36,7 @@ class MyApp extends StatelessWidget {
     PointsScreen.id: (_) => PointsScreen(),
     ChatScreen.id: (_) => ChatScreen(),
     ChooseLocationScreen.id: (_) => ChooseLocationScreen(),
+    // CommentScreen.id: (_) => CommentScreen(),
   };
 
   @override
@@ -73,6 +75,9 @@ class MyApp extends StatelessWidget {
       onGenerateRoute: (settings) {
         return PageRouteBuilder(
           pageBuilder: (context, animation, secondaryAnimation) {
+            if (settings.name == CommentScreen.id) {
+              return CommentScreen(settings.arguments);
+            }
             return _routes[settings.name](context);
           },
           transitionDuration: Duration(milliseconds: 300),

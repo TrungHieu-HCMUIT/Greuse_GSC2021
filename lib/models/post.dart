@@ -9,6 +9,7 @@ class Post {
   final String description;
   final bool isSaved;
   final bool liked;
+  final double weight;
   Post({
     this.id,
     @required this.image,
@@ -18,6 +19,7 @@ class Post {
     @required this.description,
     this.isSaved = false,
     this.liked = false,
+    @required this.weight,
   });
 
   Map<String, dynamic> toJson() {
@@ -30,6 +32,7 @@ class Post {
       'description': description,
       'isSaved': isSaved,
       'liked': liked,
+      'weight': weight,
     };
   }
 
@@ -43,6 +46,7 @@ class Post {
       description: json['description'],
       isSaved: json['isSaved'],
       liked: json['liked'],
+      weight: json['weight'],
     );
   }
 }

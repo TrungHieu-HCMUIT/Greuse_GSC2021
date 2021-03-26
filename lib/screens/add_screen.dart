@@ -8,12 +8,10 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:greuse/ViewModels/news_feed_card_vm.dart';
 import 'package:greuse/components/floating_bottom_button.dart';
 import 'package:greuse/screens/choose_location_screen.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 
 class AddScreen extends StatefulWidget {
   static const id = 'add_screen';
@@ -390,11 +388,14 @@ class MyRadio extends StatelessWidget {
             groupValue: groupValue,
             onChanged: onChanged,
           ),
-          SizedBox(width: 10.0),
-          Text(
-            label,
-            style: TextStyle(
-              fontSize: 16.0,
+          Expanded(
+            child: Text(
+              label,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                fontSize: 16.0,
+              ),
             ),
           ),
         ],

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:greuse/ViewModels/news_feed_card_vm.dart';
+import 'package:greuse/screens/comment_screen.dart';
 
 class NewsFeedCard extends StatelessWidget {
   final NewsFeedCardVM viewModel;
@@ -166,7 +167,13 @@ class NewsFeedCard extends StatelessWidget {
                       borderRadius: BorderRadius.circular(15.0),
                       child: Material(
                         child: InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.pushNamed(
+                              context,
+                              CommentScreen.id,
+                              arguments: viewModel.post.id,
+                            );
+                          },
                           child: ImageIcon(
                             AssetImage('assets/icons/ChatTeardropDots.png'),
                             size: 32.0,
