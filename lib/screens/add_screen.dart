@@ -306,7 +306,7 @@ class MyRadio extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: MediaQuery.of(context).size.width / 2.8,
+      width: MediaQuery.of(context).size.width / 2.4,
       child: Row(
         children: [
           Radio(

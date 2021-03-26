@@ -27,6 +27,7 @@ class _PointsScreenState extends State<PointsScreen> {
     // TODO: implement initState
     super.initState();
     getMaterialRow();
+    getAwardComponents();
   }
 
   void getMaterialRow() async {
@@ -35,6 +36,14 @@ class _PointsScreenState extends State<PointsScreen> {
         await _firestore.collection('materials').orderBy('id').get();
     for (var row in dataList.docs) {
       _rowsData.add(row.data());
+    }
+  }
+
+  void getAwardComponents() async {
+    final dataAward = await _firestore.collection('awards').get();
+    for (var data in dataAward.docs) {
+      print('Here -------------------');
+      print(data.data());
     }
   }
 
@@ -115,9 +124,18 @@ class _PointsScreenState extends State<PointsScreen> {
                               vertical: 20,
                               horizontal: 8,
                             ),
-                            child: Text(
-                              rowData['Material'],
-                              style: _bodyTextStyle,
+                            child: TextButton(
+                              // TODO: Popup Material detail when tap
+                              onPressed: () {
+                                print(rowData['Material']);
+                              },
+                              child: Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  rowData['Material'],
+                                  style: _bodyTextStyle,
+                                ),
+                              ),
                             ),
                           ),
                           Padding(
