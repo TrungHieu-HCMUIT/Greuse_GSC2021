@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:greuse/screens/add_screen.dart';
 import 'package:greuse/screens/auth_screen.dart';
 import 'package:greuse/screens/chat_screen.dart';
+import 'package:greuse/screens/choose_location_screen.dart';
 import 'package:greuse/screens/home_screen.dart';
 import 'package:greuse/screens/messages_screen.dart';
 import 'package:greuse/screens/my_posts_screen.dart';
@@ -33,6 +34,7 @@ class MyApp extends StatelessWidget {
     AuthScreen.id: (_) => AuthScreen(),
     PointsScreen.id: (_) => PointsScreen(),
     ChatScreen.id: (_) => ChatScreen(),
+    ChooseLocationScreen.id: (_) => ChooseLocationScreen(),
   };
 
   @override

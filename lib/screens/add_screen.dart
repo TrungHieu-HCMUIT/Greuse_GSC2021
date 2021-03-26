@@ -1,12 +1,16 @@
+import 'dart:async';
+import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:greuse/ViewModels/news_feed_card_vm.dart';
 import 'package:greuse/components/floating_bottom_button.dart';
-import 'package:greuse/models/post.dart';
-import 'package:greuse/models/user.dart' as MUser;
+import 'package:greuse/screens/choose_location_screen.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -19,6 +23,7 @@ class AddScreen extends StatefulWidget {
 
 class _AddScreenState extends State<AddScreen> {
   final _firestore = FirebaseFirestore.instance;
+  final _storage = FirebaseStorage.instance;
   final _auth = FirebaseAuth.instance;
   final _weightController = TextEditingController();
   final _productNameController = TextEditingController();
@@ -26,7 +31,7 @@ class _AddScreenState extends State<AddScreen> {
   final _weightFocusNode = FocusNode();
   final _productNameFocusNode = FocusNode();
   final _descriptionFocusNode = FocusNode();
-  final _storage = FirebaseStorage.instance;
+  dynamic _pickedImages;
   var _materials = [
     'Paper',
     'Plastic Bottle',
@@ -35,12 +40,10 @@ class _AddScreenState extends State<AddScreen> {
     'others...',
   ];
   String _material;
-  String _productNameErrorText,
-      _descriptionErrorText,
-      _weightErrorText,
-      _materialErrorText;
-  var _pickedImagePaths = <String>[];
-  var _pickedAssetImages = <Asset>[];
+  String _nameErrorText;
+  String _descriptionErrorText;
+  String _weightErrorText;
+  String _materialErrorText;
 
   void _showSucceedDialog(BuildContext context) {
     showDialog(
@@ -92,6 +95,10 @@ class _AddScreenState extends State<AddScreen> {
     return newList;
   }
 
+  void _chooseLocation() async {
+    Navigator.pushNamed(context, ChooseLocationScreen.id);
+  }
+
   Future<ImageSource> _chooseImageSource() async {
     ImageSource source;
     await showModalBottomSheet(
@@ -136,31 +143,94 @@ class _AddScreenState extends State<AddScreen> {
 
   void _chooseImage() async {
     final imageSource = await _chooseImageSource();
-    if (imageSource != null) {
-      if (imageSource == ImageSource.camera) {
-        final pickedImage = await ImagePicker().getImage(
-          source: imageSource,
-          imageQuality: 85,
-        );
-        _pickedImagePaths.add(pickedImage.path);
-      } else {
-        final pickedImages = await MultiImagePicker.pickImages(maxImages: 5);
-        _pickedAssetImages = pickedImages;
+    if (imageSource == ImageSource.camera) {
+      final picker = ImagePicker();
+      final pickedFile = await picker.getImage(source: ImageSource.camera);
+      if (pickedFile != null) {
+        _pickedImages = null;
+        _pickedImages = File(pickedFile.path);
       }
-      // TODO: Upload to Cloud Storage
+      return;
+    }
+
+    final pickedFiles = await MultiImagePicker.pickImages(maxImages: 5);
+    if (pickedFiles.isNotEmpty) {
+      _pickedImages = null;
+      for (int i = 0; i < pickedFiles.length; i++) {
+        final img = pickedFiles[i];
+        _pickedImages = <Uint8List>[];
+        final byteData = await img.getByteData();
+        _pickedImages.add(byteData.buffer.asUint8List());
+      }
     }
   }
 
+  String generateImageName(String path) {
+    return "${path.hashCode}${path.substring(path.lastIndexOf('.'))}";
+  }
+
+  Future<String> _uploadImage() async {
+    String downloadUrl;
+    if (_pickedImages is File) {
+      final ref = _storage
+          .ref()
+          .child("postImages")
+          .child(generateImageName(_pickedImages.path));
+
+      final uploadTask = ref.putFile(_pickedImages);
+      await uploadTask.whenComplete(() async {
+        downloadUrl = await ref.getDownloadURL();
+      });
+    }
+
+    return downloadUrl;
+  }
+
   Future<void> _post() async {
+    setState(() {
+      _nameErrorText = null;
+      _descriptionErrorText = null;
+      _weightErrorText = null;
+      _materialErrorText = null;
+    });
+
+    bool isValid = true;
+
     final prodName = _productNameController.text.trim();
     final description = _descriptionController.text.trim();
-    final weight = double.parse(_weightController.text.trim());
+    dynamic weight = _weightController.text.trim();
+
+    setState(() {
+      if (prodName.isEmpty) {
+        _nameErrorText = "Please enter product's name";
+        isValid = false;
+      }
+      if (description.isEmpty) {
+        _descriptionErrorText = "Please enter description";
+        isValid = false;
+      }
+      if (weight.isEmpty) {
+        _weightErrorText = "Please enter weight";
+        isValid = false;
+      } else {
+        weight = double.tryParse(weight);
+        if (weight == null) {
+          _weightErrorText = "Please enter a valid number";
+          isValid = false;
+        }
+      }
+      if (_material == null) {
+        _materialErrorText = "Please choose a mateiral";
+        isValid = false;
+      }
+    });
+
+    if (!isValid) return;
+
     final user = _auth.currentUser;
     if (user == null) return;
     final dbUser = _firestore.collection('users').doc(user.uid);
     final res = await _firestore.collection("posts").add({
-      'image':
-          'https://thunggiay.com/wp-content/uploads/2018/10/Mua-thung-giay-o-dau-uy-tin-va-chat-luong1.jpg',
       'material': _material,
       'name': prodName,
       'location': 'TP HCM',
@@ -171,7 +241,13 @@ class _AddScreenState extends State<AddScreen> {
     });
     if (res != null) {
       await res.update({'id': res.id});
-      _showSucceedDialog(context);
+      final imageUrl = await _uploadImage();
+      if (imageUrl == null) {
+        await res.delete();
+      } else {
+        await res.update({'image': imageUrl});
+        _showSucceedDialog(context);
+      }
     }
   }
 
@@ -202,7 +278,7 @@ class _AddScreenState extends State<AddScreen> {
                 ),
                 SizedBox(height: 10.0),
                 MyButton(
-                  onPressed: () {},
+                  onPressed: _chooseLocation,
                   icon: ImageIcon(
                     AssetImage('assets/icons/location.png'),
                     color: Theme.of(context).primaryColor,
@@ -214,7 +290,7 @@ class _AddScreenState extends State<AddScreen> {
                   controller: _productNameController,
                   focusNode: _productNameFocusNode,
                   hintText: "Product's name",
-                  errorText: _productNameErrorText,
+                  errorText: _nameErrorText,
                   icon: ImageIcon(
                     AssetImage('assets/icons/box.png'),
                     color: Theme.of(context).primaryColor,
@@ -243,7 +319,7 @@ class _AddScreenState extends State<AddScreen> {
                 _materialErrorText == null
                     ? Container()
                     : Text(
-                        _materialErrorText ?? "",
+                        _materialErrorText ?? '',
                         style: Theme.of(context).textTheme.bodyText2.copyWith(
                               color: Theme.of(context).errorColor,
                             ),
@@ -256,8 +332,8 @@ class _AddScreenState extends State<AddScreen> {
                   controller: _weightController,
                   focusNode: _weightFocusNode,
                   hintText: "Weight",
-                  keyboardType: TextInputType.number,
                   errorText: _weightErrorText,
+                  keyboardType: TextInputType.number,
                   icon: ImageIcon(
                     AssetImage('assets/icons/weight.png'),
                     color: Theme.of(context).primaryColor,

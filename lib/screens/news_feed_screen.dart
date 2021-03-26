@@ -35,11 +35,22 @@ class _NewsFeedScreenState extends State<NewsFeedScreen> {
                   .get())
               .size ==
           1;
+
+      final liked = (await _firestore
+                  .collection('users')
+                  .doc(userId)
+                  .collection("likedPosts")
+                  .where('id', isEqualTo: postData['id'])
+                  .get())
+              .size ==
+          1;
+
       _newsFeedList.add(NewsFeedCardVM(
         user: us.User.fromJson(userData),
         post: Post.fromJson({
           ...postData,
           'isSaved': isSaved,
+          'liked': liked,
         }),
       ));
     }
@@ -47,21 +58,7 @@ class _NewsFeedScreenState extends State<NewsFeedScreen> {
   }
 
   Future<void> _toggleBookmark(int pos, NewsFeedCardVM vm) async {
-    // await _firestore.collection("posts").doc(vm.post.id).update({
-    //   'isSaved': !vm.post.isSaved,
-    // });
-    // setState(() {
-    //   print(vm.post.toJson());
-    //   _newsFeedList[pos] = NewsFeedCardVM(
-    //     post: Post.fromJson({
-    //       ...vm.post.toJson(),
-    //       'isSaved': !vm.post.isSaved,
-    //     }),
-    //     user: vm.user,
-    //   );
-    // });
     final userId = _auth.currentUser.uid;
-    print(userId);
     final snap = await _firestore
         .collection("users")
         .doc(userId)
@@ -83,11 +80,43 @@ class _NewsFeedScreenState extends State<NewsFeedScreen> {
           .delete();
     }
     setState(() {
-      print(vm.post.toJson());
       _newsFeedList[pos] = NewsFeedCardVM(
         post: Post.fromJson({
           ...vm.post.toJson(),
           'isSaved': !vm.post.isSaved,
+        }),
+        user: vm.user,
+      );
+    });
+  }
+
+  Future<void> _toggleLike(int pos, NewsFeedCardVM vm) async {
+    final userId = _auth.currentUser.uid;
+    final snap = await _firestore
+        .collection("users")
+        .doc(userId)
+        .collection("likedPosts")
+        .where("id", isEqualTo: vm.post.id)
+        .get();
+    if (snap.size == 0) {
+      await _firestore
+          .collection("users")
+          .doc(userId)
+          .collection("likedPosts")
+          .add({
+        'id': vm.post.id,
+        'post': _firestore.doc('posts/${vm.post.id}'),
+      });
+    } else {
+      await _firestore
+          .doc('users/$userId/likedPosts/${snap.docs[0].id}')
+          .delete();
+    }
+    setState(() {
+      _newsFeedList[pos] = NewsFeedCardVM(
+        post: Post.fromJson({
+          ...vm.post.toJson(),
+          'liked': !vm.post.liked,
         }),
         user: vm.user,
       );
@@ -166,23 +195,28 @@ class _NewsFeedScreenState extends State<NewsFeedScreen> {
           ),
         ],
       ),
-      body: ListView.separated(
-        physics: BouncingScrollPhysics(),
-        padding: EdgeInsets.symmetric(
-          vertical: 26.0,
-          horizontal: 36.0,
+      body: RefreshIndicator(
+        color: Theme.of(context).primaryColor,
+        backgroundColor: Colors.white,
+        onRefresh: _fetchNewsFeed,
+        child: ListView.separated(
+          padding: EdgeInsets.symmetric(
+            vertical: 26.0,
+            horizontal: 36.0,
+          ),
+          itemCount: _newsFeedList.length,
+          itemBuilder: (context, index) {
+            final e = _newsFeedList.elementAt(index);
+            return NewsFeedCard(
+              viewModel: e,
+              toggleBookmark: () => _toggleBookmark(index, e),
+              toggleLike: () => _toggleLike(index, e),
+            );
+          },
+          separatorBuilder: (context, index) {
+            return SizedBox(height: 25.0);
+          },
         ),
-        itemCount: _newsFeedList.length,
-        itemBuilder: (context, index) {
-          final e = _newsFeedList.elementAt(index);
-          return NewsFeedCard(
-            viewModel: e,
-            toggleBookmark: () => _toggleBookmark(index, e),
-          );
-        },
-        separatorBuilder: (context, index) {
-          return SizedBox(height: 25.0);
-        },
       ),
     );
   }

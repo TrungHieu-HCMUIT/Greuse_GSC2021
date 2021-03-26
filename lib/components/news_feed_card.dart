@@ -5,7 +5,8 @@ import 'package:greuse/ViewModels/news_feed_card_vm.dart';
 class NewsFeedCard extends StatelessWidget {
   final NewsFeedCardVM viewModel;
   final Function toggleBookmark;
-  NewsFeedCard({this.viewModel, this.toggleBookmark});
+  final Function toggleLike;
+  NewsFeedCard({this.viewModel, this.toggleBookmark, this.toggleLike});
 
   @override
   Widget build(BuildContext context) {
@@ -149,10 +150,13 @@ class NewsFeedCard extends StatelessWidget {
                       borderRadius: BorderRadius.circular(15.0),
                       child: Material(
                         child: InkWell(
-                          onTap: () {},
+                          onTap: toggleLike,
                           child: ImageIcon(
                             AssetImage('assets/icons/ThumbsUp.png'),
                             size: 32.0,
+                            color: viewModel.post.liked
+                                ? Theme.of(context).primaryColor
+                                : null,
                           ),
                         ),
                       ),
