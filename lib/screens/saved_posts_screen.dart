@@ -39,9 +39,23 @@ class _SavedPostsScreenState extends State<SavedPostsScreen> {
         continue;
       }
       final userData = (await postData['user'].get()).data();
+
+      final liked = (await _firestore
+                  .collection('users')
+                  .doc(userId)
+                  .collection("likedPosts")
+                  .where('id', isEqualTo: postData['id'])
+                  .get())
+              .size ==
+          1;
+
       _savedPosts.add(NewsFeedCardVM(
         user: us.User.fromJson(userData),
-        post: Post.fromJson({...postData, 'isSaved': true}),
+        post: Post.fromJson({
+          ...postData,
+          'isSaved': true,
+          'liked': liked,
+        }),
       ));
     }
     setState(() {});
@@ -82,6 +96,39 @@ class _SavedPostsScreenState extends State<SavedPostsScreen> {
     });
   }
 
+  Future<void> _toggleLike(int pos, NewsFeedCardVM vm) async {
+    final userId = _auth.currentUser.uid;
+    final snap = await _firestore
+        .collection("users")
+        .doc(userId)
+        .collection("likedPosts")
+        .where("id", isEqualTo: vm.post.id)
+        .get();
+    if (snap.size == 0) {
+      await _firestore
+          .collection("users")
+          .doc(userId)
+          .collection("likedPosts")
+          .add({
+        'id': vm.post.id,
+        'post': _firestore.doc('posts/${vm.post.id}'),
+      });
+    } else {
+      await _firestore
+          .doc('users/$userId/likedPosts/${snap.docs[0].id}')
+          .delete();
+    }
+    setState(() {
+      _savedPosts[pos] = NewsFeedCardVM(
+        post: Post.fromJson({
+          ...vm.post.toJson(),
+          'liked': !vm.post.liked,
+        }),
+        user: vm.user,
+      );
+    });
+  }
+
   @override
   void initState() {
     _fetchSavedPosts();
@@ -112,6 +159,7 @@ class _SavedPostsScreenState extends State<SavedPostsScreen> {
           return NewsFeedCard(
             viewModel: e,
             toggleBookmark: () => _toggleBookmark(index, e),
+            toggleLike: () => _toggleLike(index, e),
           );
         },
         separatorBuilder: (context, index) {
