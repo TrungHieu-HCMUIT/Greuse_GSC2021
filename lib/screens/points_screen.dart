@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+final _firestore = FirebaseFirestore.instance;
 
 class PointsScreen extends StatefulWidget {
   static const id = 'points_screen';
@@ -7,6 +10,34 @@ class PointsScreen extends StatefulWidget {
 }
 
 class _PointsScreenState extends State<PointsScreen> {
+  var _rowsData = [];
+
+  var _headerTextStyle = TextStyle(
+    fontSize: 18,
+    fontWeight: FontWeight.w600,
+    color: Colors.white,
+  );
+  var _bodyTextStyle = TextStyle(
+    fontSize: 17,
+    color: Colors.black,
+  );
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getMaterialRow();
+  }
+
+  void getMaterialRow() async {
+    // TODO: For Loop dynamic table row within the list declaration itself.
+    final dataList =
+        await _firestore.collection('materials').orderBy('id').get();
+    for (var row in dataList.docs) {
+      _rowsData.add(row.data());
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,7 +64,89 @@ class _PointsScreenState extends State<PointsScreen> {
                 ],
               ),
               SizedBox(height: 15),
-              ExchangingTable(),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.black26),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Table(
+                    border: TableBorder.all(color: Colors.black12),
+                    children: [
+                      TableRow(
+                        decoration: BoxDecoration(
+                          color: Colors.grey,
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(10),
+                            topRight: Radius.circular(10),
+                          ),
+                        ),
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Text(
+                              'Material',
+                              style: _headerTextStyle,
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Text(
+                              'Decomposition',
+                              textAlign: TextAlign.center,
+                              style: _headerTextStyle,
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Text(
+                              'Point',
+                              textAlign: TextAlign.center,
+                              style: _headerTextStyle,
+                            ),
+                          ),
+                        ],
+                      ),
+                      for (var rowData in _rowsData)
+                        TableRow(children: [
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                              vertical: 20,
+                              horizontal: 8,
+                            ),
+                            child: Text(
+                              rowData['Material'],
+                              style: _bodyTextStyle,
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                              vertical: 20,
+                              horizontal: 8,
+                            ),
+                            child: Text(
+                              rowData['Decomposition'],
+                              textAlign: TextAlign.center,
+                              style: _bodyTextStyle,
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                              vertical: 20,
+                              horizontal: 8,
+                            ),
+                            child: Text(
+                              rowData['Point'],
+                              textAlign: TextAlign.center,
+                              style: _bodyTextStyle,
+                            ),
+                          ),
+                        ]),
+                    ],
+                  ),
+                ),
+              ),
               SizedBox(height: 15),
               Row(
                 children: [
@@ -68,142 +181,6 @@ class _PointsScreenState extends State<PointsScreen> {
               ),
             ],
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class ExchangingTable extends StatelessWidget {
-  var _headerTextStyle = TextStyle(
-    fontSize: 18,
-    fontWeight: FontWeight.w600,
-    color: Colors.white,
-  );
-  var _bodyTextStyle = TextStyle(
-    fontSize: 17,
-    color: Colors.black,
-  );
-
-  @override
-  Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(10),
-      child: Container(
-        decoration: BoxDecoration(
-          border: Border.all(color: Colors.black26),
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Table(
-          border: TableBorder.all(color: Colors.black12),
-          children: [
-            TableRow(
-              decoration: BoxDecoration(
-                color: Colors.grey,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(10),
-                  topRight: Radius.circular(10),
-                ),
-              ),
-              children: [
-                Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text(
-                    'Material',
-                    style: _headerTextStyle,
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text(
-                    'Unit',
-                    textAlign: TextAlign.center,
-                    style: _headerTextStyle,
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text(
-                    'Point',
-                    textAlign: TextAlign.center,
-                    style: _headerTextStyle,
-                  ),
-                ),
-              ],
-            ),
-            TableRow(
-              children: [
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                    vertical: 20,
-                    horizontal: 8,
-                  ),
-                  child: Text(
-                    'Material',
-                    style: _bodyTextStyle,
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                    vertical: 20,
-                    horizontal: 8,
-                  ),
-                  child: Text(
-                    'kg',
-                    textAlign: TextAlign.center,
-                    style: _bodyTextStyle,
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                    vertical: 20,
-                    horizontal: 8,
-                  ),
-                  child: Text(
-                    '599',
-                    textAlign: TextAlign.center,
-                    style: _bodyTextStyle,
-                  ),
-                ),
-              ],
-            ),
-            TableRow(
-              children: [
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                    vertical: 20,
-                    horizontal: 8,
-                  ),
-                  child: Text(
-                    'Material',
-                    style: _bodyTextStyle,
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                    vertical: 20,
-                    horizontal: 8,
-                  ),
-                  child: Text(
-                    'kg',
-                    textAlign: TextAlign.center,
-                    style: _bodyTextStyle,
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                    vertical: 20,
-                    horizontal: 8,
-                  ),
-                  child: Text(
-                    '599',
-                    textAlign: TextAlign.center,
-                    style: _bodyTextStyle,
-                  ),
-                ),
-              ],
-            ),
-          ],
         ),
       ),
     );

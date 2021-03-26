@@ -31,15 +31,10 @@ class _AddScreenState extends State<AddScreen> {
   final _descriptionFocusNode = FocusNode();
   dynamic _pickedImages;
   var _materials = [
-    'Material 1',
-    'Material 2',
-    'Material 3',
-    'Material 4',
-    'Material 5',
-    'Material 6',
-    'Material 7',
-    'Material 8',
-    'Material 9',
+    'Paper',
+    'Plastic Bottle',
+    'Aluminium Can',
+    'Glass',
     'others...',
   ];
   String _material;
@@ -393,11 +388,14 @@ class MyRadio extends StatelessWidget {
             groupValue: groupValue,
             onChanged: onChanged,
           ),
-          SizedBox(width: 10.0),
-          Text(
-            label,
-            style: TextStyle(
-              fontSize: 16.0,
+          Expanded(
+            child: Text(
+              label,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                fontSize: 16.0,
+              ),
             ),
           ),
         ],
