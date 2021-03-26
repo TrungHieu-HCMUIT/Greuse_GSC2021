@@ -27,7 +27,6 @@ class _PointsScreenState extends State<PointsScreen> {
     // TODO: implement initState
     super.initState();
     getMaterialRow();
-    getAwardComponents();
   }
 
   void getMaterialRow() async {
@@ -36,14 +35,6 @@ class _PointsScreenState extends State<PointsScreen> {
         await _firestore.collection('materials').orderBy('id').get();
     for (var row in dataList.docs) {
       _rowsData.add(row.data());
-    }
-  }
-
-  void getAwardComponents() async {
-    final dataAward = await _firestore.collection('awards').get();
-    for (var data in dataAward.docs) {
-      print('Here -------------------');
-      print(data.data());
     }
   }
 
@@ -182,21 +173,7 @@ class _PointsScreenState extends State<PointsScreen> {
                   ),
                 ],
               ),
-              ListView.separated(
-                shrinkWrap: true,
-                physics: ClampingScrollPhysics(),
-                separatorBuilder: (context, index) {
-                  return SizedBox(height: 15.0);
-                },
-                padding: EdgeInsets.symmetric(
-                  vertical: 20.0,
-                  horizontal: 30.0,
-                ),
-                itemCount: 3,
-                itemBuilder: (context, index) {
-                  return ListViewItem();
-                },
-              ),
+              AwardStream(),
             ],
           ),
         ),
@@ -205,7 +182,64 @@ class _PointsScreenState extends State<PointsScreen> {
   }
 }
 
+class AwardStream extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<QuerySnapshot>(
+      // TODO: StatelessWidget Snapshot Data from firestore
+      stream: _firestore.collection('awards').orderBy('Point').snapshots(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return CircularProgressIndicator();
+        }
+        final allAwardData = snapshot.data.docs.reversed;
+
+        List<ListViewItem> listViewItem = [];
+        for (var awardData in allAwardData) {
+          final award = awardData.data()['Award'];
+          final description = awardData.data()['Description'];
+          final enterprise = awardData.data()['Enterprise'];
+          final point = awardData.data()['Point'];
+          final photoURL = awardData.data()['photoURL'];
+
+          final viewItem = ListViewItem(
+            award: award,
+            description: description,
+            enterprise: enterprise,
+            point: point,
+            photoURL: photoURL,
+          );
+
+          listViewItem.add(viewItem);
+        }
+        return ListView(
+          shrinkWrap: true,
+          physics: ClampingScrollPhysics(),
+          padding: EdgeInsets.symmetric(
+            vertical: 20.0,
+            horizontal: 30.0,
+          ),
+          children: listViewItem,
+        );
+      },
+    );
+  }
+}
+
 class ListViewItem extends StatelessWidget {
+  final String award;
+  final String description;
+  final String enterprise;
+  final int point;
+  final String photoURL;
+
+  ListViewItem(
+      {this.award,
+      this.description,
+      this.enterprise,
+      this.photoURL,
+      this.point});
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -219,10 +253,10 @@ class ListViewItem extends StatelessWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(10.0),
-              child: Image.asset(
-                'assets/images/avatar.png',
-                height: 65.0,
-                width: 65.0,
+              child: Image.network(
+                photoURL,
+                height: 75.0,
+                width: 75.0,
               ),
             ),
             SizedBox(width: 10.0),
@@ -231,14 +265,14 @@ class ListViewItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Enterprise name',
+                    enterprise,
                     style: TextStyle(
                       color: Color(0xFF868686),
                       fontWeight: FontWeight.w500,
                     ),
                   ),
                   Text(
-                    'Get a personal bamboo water bottle',
+                    description,
                   ),
                 ],
               ),
@@ -253,7 +287,7 @@ class ListViewItem extends StatelessWidget {
                 ),
                 SizedBox(height: 5.0),
                 Text(
-                  '599',
+                  point.toString(),
                   style: TextStyle(
                     fontWeight: FontWeight.w500,
                     fontSize: 16.0,
