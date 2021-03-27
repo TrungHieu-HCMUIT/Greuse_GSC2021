@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
     SignUpScreen.id: (_) => SignUpScreen(),
     AuthScreen.id: (_) => AuthScreen(),
     PointsScreen.id: (_) => PointsScreen(),
-    ChatScreen.id: (_) => ChatScreen(),
+    // ChatScreen.id: (_) => ChatScreen(),
     ChooseLocationScreen.id: (_) => ChooseLocationScreen(),
     // CommentScreen.id: (_) => CommentScreen(),
   };
@@ -77,6 +77,9 @@ class MyApp extends StatelessWidget {
           pageBuilder: (context, animation, secondaryAnimation) {
             if (settings.name == CommentScreen.id) {
               return CommentScreen(settings.arguments);
+            }
+            if (settings.name == ChatScreen.id) {
+              return ChatScreen(settings.arguments);
             }
             return _routes[settings.name](context);
           },

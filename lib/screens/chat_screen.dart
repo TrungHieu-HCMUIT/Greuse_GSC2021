@@ -1,13 +1,73 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class ChatScreen extends StatefulWidget {
   static const id = 'chat_screen';
+  final String receiverId;
+  ChatScreen(this.receiverId);
   @override
   _ChatScreenState createState() => _ChatScreenState();
 }
 
 class _ChatScreenState extends State<ChatScreen> {
+  final _firestore = FirebaseFirestore.instance;
+  final _auth = FirebaseAuth.instance;
   final _messageController = TextEditingController();
+  DocumentReference _sender;
+  DocumentReference _receiver;
+
+  Future<void> _sendMessage() async {
+    String userId = _auth.currentUser.uid;
+    String message = _messageController.text.trim();
+    final chatRef = _firestore
+        .collection("users")
+        .doc(userId)
+        .collection("messages")
+        .where("user", isEqualTo: _receiver);
+    final chat = await chatRef.get();
+    await chat.docs[0].data()['chat'].collection("messages").add({
+      'message': message,
+      'sender': _sender,
+      'receiver': _receiver,
+    });
+  }
+
+  Future<void> _checkIfAlreadyChated() async {
+    String userId = _auth.currentUser.uid;
+
+    _sender = _firestore.collection("users").doc(userId);
+    _receiver = _firestore.collection("users").doc(widget.receiverId);
+
+    final chat = await _firestore
+        .collection("users")
+        .doc(userId)
+        .collection("messages")
+        .where("user", isEqualTo: _receiver)
+        .get();
+    if (chat.size == 0) {
+      final chatRef = await _firestore.collection("chats").add({
+        'user1': _sender,
+        'user2': _receiver,
+      });
+      await _sender.collection("messages").add({
+        'chatId': chatRef.id,
+        'chat': chatRef,
+        'user': _receiver,
+      });
+      await _receiver.collection("messages").add({
+        'chatId': chatRef.id,
+        'chat': chatRef,
+        'user': _sender,
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _checkIfAlreadyChated();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +132,9 @@ class _ChatScreenState extends State<ChatScreen> {
                   ),
                 ),
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    _sendMessage();
+                  },
                   icon: ImageIcon(
                     AssetImage('assets/icons/paper_air_plane.png'),
                     color: Theme.of(context).primaryColor,

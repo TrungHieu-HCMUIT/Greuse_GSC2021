@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:greuse/ViewModels/news_feed_card_vm.dart';
+import 'package:greuse/screens/chat_screen.dart';
 import 'package:greuse/screens/comment_screen.dart';
 
 class NewsFeedCard extends StatelessWidget {
@@ -186,7 +187,10 @@ class NewsFeedCard extends StatelessWidget {
                       borderRadius: BorderRadius.circular(15.0),
                       child: Material(
                         child: InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.pushNamed(context, ChatScreen.id,
+                                arguments: viewModel.user.id);
+                          },
                           child: ImageIcon(
                             AssetImage('assets/icons/paper_air_plane_45d.png'),
                             size: 32.0,
