@@ -209,6 +209,7 @@ class _NewsFeedScreenState extends State<NewsFeedScreen> {
             final e = _newsFeedList.elementAt(index);
             return NewsFeedCard(
               viewModel: e,
+              message: e.user.id != _auth.currentUser.uid,
               toggleBookmark: () => _toggleBookmark(index, e),
               toggleLike: () => _toggleLike(index, e),
             );

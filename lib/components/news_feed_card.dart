@@ -8,7 +8,13 @@ class NewsFeedCard extends StatelessWidget {
   final NewsFeedCardVM viewModel;
   final Function toggleBookmark;
   final Function toggleLike;
-  NewsFeedCard({this.viewModel, this.toggleBookmark, this.toggleLike});
+  final bool message;
+  NewsFeedCard({
+    this.viewModel,
+    this.toggleBookmark,
+    this.toggleLike,
+    this.message,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -183,21 +189,24 @@ class NewsFeedCard extends StatelessWidget {
                       ),
                     ),
                     SizedBox(width: 12),
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(15.0),
-                      child: Material(
-                        child: InkWell(
-                          onTap: () {
-                            Navigator.pushNamed(context, ChatScreen.id,
-                                arguments: viewModel.user.id);
-                          },
-                          child: ImageIcon(
-                            AssetImage('assets/icons/paper_air_plane_45d.png'),
-                            size: 32.0,
+                    !message
+                        ? Container()
+                        : ClipRRect(
+                            borderRadius: BorderRadius.circular(15.0),
+                            child: Material(
+                              child: InkWell(
+                                onTap: () {
+                                  Navigator.pushNamed(context, ChatScreen.id,
+                                      arguments: viewModel.user.id);
+                                },
+                                child: ImageIcon(
+                                  AssetImage(
+                                      'assets/icons/paper_air_plane_45d.png'),
+                                  size: 32.0,
+                                ),
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                    ),
                     Expanded(
                       child: Container(),
                     ),

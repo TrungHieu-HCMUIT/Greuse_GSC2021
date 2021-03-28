@@ -15,16 +15,16 @@ class User {
   Map<String, dynamic> toJson() {
     return {
       'uid': id,
-      'displayname': displayname,
+      'name': displayname,
       'email': email,
-      'avatarURL': avatarURL,
+      'photoUrl': avatarURL,
     };
   }
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
       id: json['uid'],
-      displayname: json['displayname'],
+      displayname: json['name'],
       email: json['email'],
       avatarURL: json['photoUrl'],
     );
