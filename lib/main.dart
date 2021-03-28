@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
     SignUpScreen.id: (_) => SignUpScreen(),
     AuthScreen.id: (_) => AuthScreen(),
     PointsScreen.id: (_) => PointsScreen(),
-    ChatScreen.id: (_) => ChatScreen(),
+    // ChatScreen.id: (_) => ChatScreen(),
     ChooseLocationScreen.id: (_) => ChooseLocationScreen(),
     MaterialInfoScreen.id: (_) => MaterialInfoScreen(),
     // CommentScreen.id: (_) => CommentScreen(),
