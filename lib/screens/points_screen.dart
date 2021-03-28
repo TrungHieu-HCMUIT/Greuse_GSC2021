@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:greuse/screens/material_info_screen.dart';
+import 'package:greuse/screens/awards_screen.dart';
 
 final _firestore = FirebaseFirestore.instance;
 
@@ -48,18 +50,32 @@ class _PointsScreenState extends State<PointsScreen> {
           child: Column(
             children: [
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Image.asset(
-                    'assets/icons/exchange.png',
-                    scale: 1.5,
+                  Row(
+                    children: [
+                      Image.asset(
+                        'assets/icons/exchange.png',
+                        scale: 1.5,
+                      ),
+                      SizedBox(width: 10),
+                      Text(
+                        'Exchanging board',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
                   ),
-                  SizedBox(width: 10),
-                  Text(
-                    'Exchanging board',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w500,
+                  IconButton(
+                    icon: Icon(
+                      Icons.info,
+                      color: Colors.teal[400],
                     ),
+                    onPressed: () {
+                      Navigator.pushNamed(context, MaterialInfoScreen.id);
+                    },
                   ),
                 ],
               ),
@@ -118,7 +134,7 @@ class _PointsScreenState extends State<PointsScreen> {
                             child: TextButton(
                               // TODO: Popup Material detail when tap
                               onPressed: () {
-                                print(rowData['Material']);
+                                // print(rowData['Material']);
                               },
                               child: Align(
                                 alignment: Alignment.centerLeft,
@@ -201,6 +217,17 @@ class AwardStream extends StatelessWidget {
           final enterprise = awardData.data()['Enterprise'];
           final point = awardData.data()['Point'];
           final photoURL = awardData.data()['photoURL'];
+          final Function press = () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => AwardScreen(
+                  awardName: award,
+                  description: description,
+                  enterprise: enterprise,
+                  point: point,
+                  photoURL: photoURL,
+                ),
+              ));
 
           final viewItem = ListViewItem(
             award: award,
@@ -208,6 +235,7 @@ class AwardStream extends StatelessWidget {
             enterprise: enterprise,
             point: point,
             photoURL: photoURL,
+            press: press,
           );
 
           listViewItem.add(viewItem);
@@ -232,70 +260,77 @@ class ListViewItem extends StatelessWidget {
   final String enterprise;
   final int point;
   final String photoURL;
+  final Function press;
 
   ListViewItem(
       {this.award,
       this.description,
       this.enterprise,
       this.photoURL,
-      this.point});
+      this.point,
+      this.press});
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 4.0,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10.0),
-      ),
-      child: Padding(
-        padding: EdgeInsets.all(14.0),
-        child: Row(
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(10.0),
-              child: Image.network(
-                photoURL,
-                height: 75.0,
-                width: 75.0,
+    return GestureDetector(
+      onTap: press,
+      child: Card(
+        elevation: 4.0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        child: Padding(
+          padding: EdgeInsets.all(14.0),
+          child: Row(
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(10.0),
+                child: Image.network(
+                  photoURL,
+                  height: 75.0,
+                  width: 75.0,
+                ),
               ),
-            ),
-            SizedBox(width: 10.0),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    enterprise,
-                    style: TextStyle(
-                      color: Color(0xFF868686),
-                      fontWeight: FontWeight.w500,
+              SizedBox(width: 10.0),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      award,
+                      style: TextStyle(
+                        color: Color(0xFF868686),
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
+                    Text(
+                      description,
+                      maxLines: 3,
+                      textAlign: TextAlign.justify,
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(width: 10.0),
+              Column(
+                children: [
+                  Image.asset(
+                    'assets/icons/point.png',
+                    width: 42.0,
+                    height: 42.0,
                   ),
+                  SizedBox(height: 5.0),
                   Text(
-                    description,
+                    point.toString(),
+                    style: TextStyle(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 16.0,
+                    ),
                   ),
                 ],
               ),
-            ),
-            SizedBox(width: 10.0),
-            Column(
-              children: [
-                Image.asset(
-                  'assets/icons/point.png',
-                  width: 42.0,
-                  height: 42.0,
-                ),
-                SizedBox(height: 5.0),
-                Text(
-                  point.toString(),
-                  style: TextStyle(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 16.0,
-                  ),
-                ),
-              ],
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

@@ -14,6 +14,7 @@ import 'package:greuse/screens/profile_screen.dart';
 import 'package:greuse/screens/saved_posts_screen.dart';
 import 'package:greuse/screens/sign_in_screen.dart';
 import 'package:greuse/screens/sign_up_screen.dart';
+import 'package:greuse/screens/material_info_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -36,6 +37,7 @@ class MyApp extends StatelessWidget {
     PointsScreen.id: (_) => PointsScreen(),
     ChatScreen.id: (_) => ChatScreen(),
     ChooseLocationScreen.id: (_) => ChooseLocationScreen(),
+    MaterialInfoScreen.id: (_) => MaterialInfoScreen(),
     // CommentScreen.id: (_) => CommentScreen(),
   };
 
