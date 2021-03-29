@@ -157,10 +157,10 @@ class _SavedPostsScreenState extends State<SavedPostsScreen> {
         itemBuilder: (context, index) {
           final e = _savedPosts.elementAt(index);
           return NewsFeedCard(
-            viewModel: e,
-            toggleBookmark: () => _toggleBookmark(index, e),
-            toggleLike: () => _toggleLike(index, e),
-          );
+              viewModel: e,
+              toggleBookmark: () => _toggleBookmark(index, e),
+              toggleLike: () => _toggleLike(index, e),
+              message: e.user.id != _auth.currentUser.uid);
         },
         separatorBuilder: (context, index) {
           return SizedBox(height: 25.0);

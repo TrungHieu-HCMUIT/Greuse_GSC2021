@@ -236,6 +236,7 @@ class _AddScreenState extends State<AddScreen> {
       'isSaved': false,
       'weight': weight,
       'user': dbUser,
+      'image': 'https://i.ytimg.com/vi/hR-gZ1eHFdI/maxresdefault.jpg',
     });
     if (res != null) {
       await res.update({'id': res.id});
