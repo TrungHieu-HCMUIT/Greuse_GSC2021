@@ -17,18 +17,18 @@
 <table>
 <tr>
 <td>
-    <img src='https://j.gifs.com/VA8LRO.gif' width="400" height="500"/>
+    <img src='https://j.gifs.com/VA8LRO.gif' width="300" height="500"/>
 </td>
 <td>
-    <img src='https://j.gifs.com/p8Ox1y.gif' width="400" height="500">
+    <img src='https://j.gifs.com/p8Ox1y.gif' width="300" height="500">
 </td>
 </tr>
 <tr>
     <td>
-        <img src='https://j.gifs.com/yo1K3R.gif' width="400" height="500">
+        <img src='https://j.gifs.com/yo1K3R.gif' width="300" height="500">
     </td>
     <td>
-        <img src='https://j.gifs.com/RO4Ezw.gif' width="400" height="500"> 
+        <img src='https://j.gifs.com/RO4Ezw.gif' width="300" height="500"> 
     </td>
 </tr>
 </table>
