@@ -1,16 +1,49 @@
-# greuse
+<img src="./App_Logo.png" style="text-align: center;" width="350">
 
-A new Flutter project.
+<p>Greuse app is built on a waste overload situation that leads to environmental, allows user to exchange things they no longer use with belongings of another user and receive Greuse points for attractive gifts.</p>
+<hr>
+<p>This project is written in Dart-Flutter.</p>
 
-## Getting Started
+<p><b>Requirements:</b></p>
+<ul>
+    <li>Flutter SDK</li>
+    <li>Firebase google-services.json</li>
+    <li>Android app bluid.gradle: applicationId "vn.edu.uit.greuse"</li>
+</ul>
 
-This project is a starting point for a Flutter application.
+<p><b>📷ScreenShots:</b></p>
 
-A few resources to get you started if this is your first Flutter project:
+<div>
+<table>
+<tr>
+<td>
+    <img src='https://j.gifs.com/VA8LRO.gif' width="400" height="500"/>
+</td>
+<td>
+    <img src='https://j.gifs.com/p8Ox1y.gif' width="400" height="500">
+</td>
+</tr>
+<tr>
+    <td>
+        <img src='https://j.gifs.com/yo1K3R.gif' width="400" height="500">
+    </td>
+    <td>
+        <img src='https://j.gifs.com/RO4Ezw.gif' width="400" height="500"> 
+    </td>
+</tr>
+</table>
+</div>
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+<br>
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+<p><b>Youtube video:</b> <a href='https://www.youtube.com/watch?v=v9kt_1lCFSo'>Here</a></p>
+
+<br>
+
+<p><b>😉Members:</b></p>
+<ul>
+    <li><a href='https://github.com/TrungHieu-HCMUIT'>Võ Đức Trung Hiếu</a></li>
+    <li><a href='https://github.com/khiemledev'>Lê Trần Trọng Khiêm</a></li>
+    <li><a href='https://github.com/fantashi099'>Trần Minh Tiến</a></li>
+    <li><a href='https://github.com/hoangharu2002'>Nguyễn Nhật Hoàng</a></li>
+</ul>
